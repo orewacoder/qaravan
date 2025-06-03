@@ -1,198 +1,198 @@
 ---
-title: "Инфраструктура и пайплайн (CI/CD)"
+title: "Infratuzilma va payplayn (CI/CD)"
 ---
 
-# Инфраструктура и пайплайн (CI/CD)
+# Infratuzilma va payplayn (CI/CD)
 
-В этой теме у меня мало опыта, вероятность белиберды увеличена втрое.
+Bu mavzuda tajribam kam, shuning uchun noaniqlik ehtimoli uch barobar oshgan.
 
-Сейчас компетентность в сфере TestOps является таким же базовым требованием к QA-инженерам, как и написание автоматизированных тестов. Причина - в активном развитии CI/CD в проектах и необходимости QA-инженерам работать с пайплайнами
+Hozirda TestOps sohasidagi kompetentlik avtomatlashtirilgan testlarni yozish kabi QA muhandislariga qo‘yiladigan asosiy talabdir. Buning sababi - loyihalarda CI/CD ning faol rivojlanishi va QA muhandislarining payplaynlar bilan ishlash zaruratidadir.
 
-Многие начинающие автоматизаторы бросаются учить язык программирования, пишут первые учебные тесты и даже успешно делают тестовые задания по автоматизации тест-кейсов. Однако не все задумываются о том, что с этими тестами в реальной работе делать дальше. Кто их будет запускать? Когда? Каким образом? Здесь я бы хотел рассказать о пайплайне CI, месте автотестов в нем, а так же как и на чем тесты запускаются.
+Ko‘pchilik boshlovchi avtomatchilar dasturlash tilini o‘rganishga shoshiladilar, birinchi o‘quv testlarini yozadilar va hatto test-keyslarni avtomatlashtirish bo‘yicha test topshiriqlarini muvaffaqiyatli bajaradilar. Biroq, hamma ham haqiqiy ishda bu testlar bilan nima qilish kerakligi haqida o‘ylamaydi. Ularni kim ishga tushiradi? Qachon? Qanday qilib? Bu yerda men CI payplayni, undagi avtotestlarning o‘rni, shuningdek, testlar qanday va nima asosida ishga tushirilishi haqida gapirib bermoqchiman.
 
-Прежде всего, откуда этот пайплайн взялся и что за CI/CD.
+Avvalo, bu payplayn qayerdan paydo bo‘ldi va CI/CD nima ekanligini tushuntirib o‘taman.
 
-**Непрерывная интеграция** (Continuous Integration, CI) и **непрерывная поставка** (Continuous Delivery, CD) представляют собой культуру, набор принципов и практик, которые позволяют разработчикам чаще и надежнее развертывать изменения программного обеспечения.
+**Uzluksiz integratsiya** (Continuous Integration, CI) va **uzluksiz yetkazib berish** (Continuous Delivery, CD) dasturchilarga dasturiy ta’minot o‘zgarishlarini tez-tez va ishonchliroq amalga oshirish imkonini beruvchi madaniyat, tamoyillar va amaliyotlar to‘plamidir.
 
-CI/CD - это одна из DevOps-практик. Она также относится и к agile-практикам: автоматизация развертывания позволяет разработчикам сосредоточиться на реализации бизнес-требований, на качестве кода и безопасности.
+CI/CD - bu DevOps amaliyotlaridan biri. Bu, shuningdek, agile amaliyotlariga ham tegishli: joylashtirishni avtomatlashtirish ishlab chiquvchilarga biznes talablarini amalga oshirish, kod sifati va xavfsizlikka e’tibor qaratish imkonini beradi.
 
-**Непрерывная интеграция (Continuous Integration, CI)** - это практика разработки программного обеспечения, которая
-заключается в автоматическом и регулярном объединении (интеграции) кода, написанного разными членами команды
-разработчиков, в общий репозиторий или хранилище кода. Основная цель непрерывной интеграции - обеспечить раннюю
-обнаружение и устранение конфликтов, ошибок и проблем интеграции в процессе разработки.
+**Uzluksiz integratsiya (Continuous Integration, CI)** - bu dasturiy ta’minotni ishlab chiqish amaliyoti bo‘lib, turli jamoa a’zolari tomonidan yozilgan kodni avtomatik va muntazam ravishda umumiy kod omboriga yoki xotirasiga birlashtirish (integratsiyalash)dan iborat. Uzluksiz integratsiyaning asosiy maqsadi - ishlab chiqish jarayonida ziddiyatlar, xatolar va integratsiya muammolarini erta aniqlash va bartaraf etishdir.
+Uzluksiz integratsiyaning asosiy elementlari va amaliyotlari quyidagilarni o‘z ichiga oladi:
+1. **Avtomatik yig‘ish (Build Automation)**: Repozitoriyga har bir komitdan keyin manba kodidan bajariluvchi fayllarni (binar fayllarni) avtomatik ravishda yaratish.
+2. **Avtomatik testlash (Automated Testing)**: Yangi kod integratsiyasidan keyin ilovaning ishlash qobiliyatini tekshirish uchun modulli, integratsion va funksional testlar kabi avtomatik testlarni ishga tushirish.
 
-Основные элементы и практики непрерывной интеграции включают:
+3. **Yig‘ish va sinovlar integratsiyasi (Integration of Builds and Tests)**: Yig‘ish va sinovni CI jarayoniga avtomatik integratsiyalash.
 
-1. **Автоматическую сборку (Build Automation)**: Автоматическое создание исполняемых файлов (бинарных файлов) из
-   исходного кода после каждого коммита в репозиторий.
+4. **Nizolarni aniqlash (Conflict Detection)**: Integratsiya xatolarini keltirib chiqarishi mumkin bo‘lgan turli ishlab chiquvchilarning komitlari o‘rtasidagi nizolarni erta aniqlash.
+5. **Avtomatik joylashtirish (Automated Deployment)**: Yig‘ilgan va sinovdan o‘tkazilgan ilovani test yoki staging-serverlarda avtomatik joylashtirish.
 
-2. **Автоматическое тестирование (Automated Testing)**: Запуск автоматических тестов, включая модульные, интеграционные
-   и функциональные тесты, для проверки работоспособности приложения после интеграции нового кода.
+6. **Natijalar monitoringi (Monitoring of Results)**: Xatolarga tezkor munosabat bildirish uchun yig‘ish va testlar natijalarini kuzatib borish.
+7. **Avtomatik bildirishnoma (Automated Notification)**: Ishlab chiquvchilar jamoasini yig‘ish va testdan o‘tkazish natijalari haqida avtomatik xabardor qilish.
 
-3. **Интеграцию сборок и тестов (Integration of Builds and Tests)**: Интеграция сборки и тестирования в автоматический
-   процесс CI.
+8. **Nosozliklardan keyingi tiklanish (Failure Recovery)**: CI jarayonini nosozliklardan keyin tiklash va nosozliklar haqida avtomatik xabar berish.
+9. **CI/CD vositalaridan foydalanish (CI/CD Tools)**: Uzluksiz integratsiya va yetkazib berish jarayonlarini amalga oshirish uchun maxsus vositalar va platformalardan foydalanish.
 
-4. **Обнаружение конфликтов (Conflict Detection)**: Раннее обнаружение конфликтов между коммитами разных разработчиков,
-   которые могут вызвать ошибки интеграции.
+Uzluksiz integratsiyaning maqsadi ishlab chiqish jarayonini tezlashtirish, kod sifatini oshirish va kodni integratsiyalash hamda birlashtirish bilan bog‘liq xavflarni kamaytirishdir. CI, shuningdek, jarayonlarni avtomatlashtirish va ishlab chiqish jamoasi a’zolari o‘rtasidagi hamkorlikni yaxshilashga yordam beradi.
+**Uzluksiz yetkazib berish (Continuous Delivery, CD)** - bu uzluksiz integratsiya (CI) tamoyilini kengaytiruvchi dasturiy ta’minot ishlab chiqish amaliyoti bo‘lib, uzluksiz integratsiya va testlash jarayoni muvaffaqiyatli yakunlangandan so‘ng ilovani maqsadli muhitga (production, staging, testing va h.k.) avtomatik ravishda joylashtirish (yetkazib berish)ni o‘z ichiga oladi. Uzluksiz yetkazib berishning asosiy maqsadi - ilovaning yangi versiyalarini istalgan vaqtda chiqarishga tayyorligini ta’minlashdir.
 
-5. **Автоматическое развертывание (Automated Deployment)**: Автоматическое развертывание собранного и протестированного
-   приложения на тестовых или staging-серверах.
+Uzluksiz yetkazib berishning asosiy elementlari va amaliyotlari quyidagilarni o‘z ichiga oladi:
+1. **Avtomatik joylashtirish (Automated Deployment)**: CI jarayonida testlardan muvaffaqiyatli o‘tgandan so‘ng ilovani maqsadli serverlarda yoki platformalarda avtomatik ravishda joylashtirish.
 
-6. **Мониторинг результатов (Monitoring of Results)**: Отслеживание результатов сборок и тестов с целью быстрого
-   реагирования на ошибки.
+2. **Avtomatlashtirilgan payplayn (Automated Pipeline)**: Yig‘ish, sinovdan o‘tkazish va joylashtirish bosqichlarini o‘z ichiga olgan avtomatlashtirilgan payplayn (ta’minot zanjiri)ni yaratish.
+3. **Konfiguratsiyani boshqarish (Configuration Management)**: Joylashtirishning izchilligi va takrorlanishini ta’minlash uchun maqsadli muhitlar va resurslar konfiguratsiyalarini boshqarish.
 
-7. **Автоматическое уведомление (Automated Notification)**: Автоматическое уведомление команды разработчиков о
-   результатах сборки и тестирования.
+4. **Versiyalarni boshqarish (Version Control)**: Ilova kodi, konfiguratsiyalari va resurslaridagi o‘zgarishlarni nazorat qilish uchun versiyalarni boshqarish tizimlaridan foydalanish.
+yig‘ish va testdan o‘tkazish natijalari.
 
-8. **Восстановление после сбоев (Failure Recovery)**: Восстановление процесса CI после сбоев и автоматическое
-   уведомление о сбоях.
+8. **Tuzilishdan keyingi tiklanish (Failure Recovery) **: CI jarayonini nosozliklardan keyin va avtomatik ravishda tiklash
+nosozliklar haqida bildirishnoma
 
-9. **Использование инструментов CI/CD (CI/CD Tools)**: Использование специализированных инструментов и платформ для
-   реализации процессов непрерывной интеграции и доставки (Continuous Delivery, CD).
+9. **CI/CD vositalaridan foydalanish (CI/CD Tools) **: Buning uchun maxsus vositalar va platformalardan foydalanish
+uzluksiz integratsiya va yetkazib berish jarayonlarini amalga oshirish (Continuous Delivery, CD).
 
-Целью непрерывной интеграции является ускорение процесса разработки, повышение качества кода и уменьшение рисков,
-связанных с интеграцией и слиянием кода. CI также способствует автоматизации процессов и улучшению сотрудничества между
-членами команды разработки.
+Uzluksiz integratsiyaning maqsadi ishlab chiqish jarayonini tezlashtirish, kod sifatini oshirish va xavflarni kamaytirish,
+kodni integratsiyalash va birlashtirish bilan bog‘liq. CI, shuningdek, jarayonlarni avtomatlashtirish va o‘rtasidagi hamkorlikni yaxshilashga yordam beradi.
+ishlab chiqish jamoasi a’zolari.
 
-**Непрерывная поставка (Continuous Delivery, CD)** - это практика разработки программного обеспечения, которая расширяет
-принцип непрерывной интеграции (CI) и включает в себя автоматическое развертывание (доставку) приложения в целевую
-среду (production, staging, testing и т. д.) после успешного завершения процесса непрерывной интеграции и тестирования.
-Основная цель непрерывной поставки - обеспечить готовность к выпуску новых версий приложения в любой момент времени.
+**Uzluksiz yetkazib berish (Continuous Delivery, CD) ** - bu kengaytiruvchi dasturiy ta’minot ishlab chiqish amaliyoti
+uzluksiz integratsiyalash prinsipi (CI) va ilovani maqsadli
+muhiti (production, staging, testing va h.k.) uzluksiz integratsiya va testlash jarayoni muvaffaqiyatli yakunlangandan so‘ng.
+Uzluksiz yetkazib berishning asosiy maqsadi - ilovaning yangi versiyalarini istalgan vaqtda chiqarishga tayyorligini ta’minlash.
 
-Основные элементы и практики непрерывной поставки включают:
+Uzluksiz yetkazib berishning asosiy elementlari va amaliyotlari quyidagilarni o‘z ichiga oladi:
 
-1. **Автоматическое развертывание (Automated Deployment)**: Автоматическое развертывание приложения на целевых серверах
-   или платформах после успешного прохождения тестов в процессе CI.
+1. **Automated Deployment**: Ilovani maqsadli serverlarda avtomatik ravishda joylashtirish
+yoki CI jarayonida testlardan muvaffaqiyatli o‘tgandan so‘ng platformalarda.
 
-2. **Автоматический пайплайн (Automated Pipeline)**: Создание автоматизированного пайплайна (цепи поставок), который
-   включает в себя этапы сборки, тестирования и развертывания.
+2. **Avtomatlashtirilgan quvur liniyasi**: Avtomatlashtirilgan quvur liniyasini (ta’minot zanjirini) yaratish
+yig‘ish, sinovdan o‘tkazish va joylashtirish bosqichlarini o‘z ichiga oladi.
 
-3. **Управление конфигурацией (Configuration Management)**: Управление конфигурациями целевых сред и ресурсов для
-   обеспечения консистентности и воспроизводимости развертывания.
+3. **Konfiguratsiyani boshqarish (Configuration Management) **: uchun maqsadli muhitlar va resurslar konfiguratsiyalarini boshqarish
+yoyishning izchilligi va takrorlanuvchanligini ta’minlash.
 
-4. **Управление версиями (Version Control)**: Использование систем управления версиями для контроля изменений в коде,
-   конфигурации и ресурсах приложения.
+4. **Versiyalarni boshqarish (Version Control) **: Koddagi o‘zgarishlarni nazorat qilish uchun versiyalarni boshqarish tizimlaridan foydalanish,
+ilova konfiguratsiyalari va resurslari.
 
-5. **Автоматическое уведомление (Automated Notification)**: Автоматическое уведомление команды разработки и операций о
-   статусе процесса поставки.
+5. **Avtomatik xabarnoma (Automated Notification)**: Yetkazib berish jarayonining holati haqida ishlab chiqish va operatsiyalar jamoasiga avtomatik ravishda xabar berish.
+6. **Monitoring va qayta aloqa (Monitoring and Feedback)**: Ilovaning ishlashi va mavjudligini real vaqt rejimida kuzatish tizimini o‘rnatish, shuningdek, nosozliklar va muammolarga tezkor javob berish uchun qayta aloqa olish.
 
-6. **Мониторинг и обратная связь (Monitoring and Feedback)**: Установление мониторинга производительности и доступности
-   приложения в реальном времени, а также получение обратной связи для быстрого реагирования на сбои и проблемы.
+7. **Zaxiralash va tiklash (Backup and Recovery)**: Ma’lumotlarni zaxiralash va zarur bo‘lganda tiklash imkoniyatlarini ishlab chiqish.
+8. **Bosqichli joylashtirish (Staging)**: Ilovani ishlab chiqarish muhitiga yakuniy joylashtirishdan oldin tekshirish uchun dastlabki joylashtirish (staging) bosqichidan foydalanish.
 
-7. **Резервное копирование и восстановление (Backup and Recovery)**: Разработка процедур резервного копирования данных и
-   возможности восстановления при необходимости.
+9. **Uzluksiz joylashtirish (Rolling Deployment)**: Ilovaning yangi versiyasini foydalanuvchilarni bosqichma-bosqich yangi versiyaga o‘tkazish orqali, ish jarayonini to‘xtatmasdan va tanaffuslarsiz joriy etish.
+10. **Mikroservislar arxitekturasi (Microservices)**: Yanada moslashuvchan va tezkor yetkazib berish uchun mikroservislarga asoslangan arxitekturadan foydalanish.
 
-8. **Разделение на этапы (Staging)**: Использование этапа предварительного развертывания (staging) для проверки
-   приложения перед финальным развертыванием в продакшн.
+Uzluksiz yetkazib berishning maqsadi jamoalarga istalgan vaqtda minimal xavf va maksimal avtomatlashtirish bilan ilovaning yangi versiyalarini yetkazib berish imkonini beruvchi ishlab chiqish jarayonini yaratishdir. Bu tashkilotlarga mijozlar va bozor talablaridagi o‘zgarishlarga tezda javob berish, mahsulot sifati va barqarorligini yaxshilash hamda ishlab chiqish samaradorligini oshirish imkonini beradi.
+CI/CD vositalari joylashtirish paytida sozlanadigan o‘ziga xos muhit parametrlarini sozlashga yordam beradi. Shuningdek, CI/CD-avtomatlashtirish veb-serverlar, ma’lumotlar bazalari va ilovalarni joylashtirish jarayonida qayta ishga tushirish yoki qo‘shimcha harakatlarni talab qilishi mumkin bo‘lgan boshqa xizmatlarga zarur so‘rovlarni amalga oshiradi.
 
-9. **Оперативное развертывание (Rolling Deployment)**: Внедрение новой версии приложения путем поэтапного переключения
-   пользователей на новую версию без простоев и перерывов в работе.
+Uzluksiz integratsiya va uzluksiz yetkazib berish uzluksiz sinovdan o‘tkazilishi kerak, chunki yakuniy maqsad sifatli ilovalarni ishlab chiqishdir. Uzluksiz testlash ko‘pincha turli xil avtomatlashtirilgan testlar to‘plami (regressiya, unumdorlik va boshqalar) ko‘rinishida amalga oshiriladi, ular CI/CD konveyerida (pipeline, build chain va boshqalar) bajariladi. Yetuk CI/CD amaliyoti uzluksiz joylashtirishni amalga oshirish imkonini beradi: kod CI/CD konveyeridan muvaffaqiyatli o‘tganda, yig‘malar ishlab chiqarish muhitida avtomatik ravishda joylashtiriladi. Uzluksiz ta’minot bilan shug‘ullanadigan jamoalar har kuni yoki hatto har soatda joylashtirish imkoniyatiga ega bo‘lishlari mumkin.
+Odatiy CD-**konveyer** yig‘ish, sinovdan o‘tkazish va joylashtirish bosqichlaridan iborat. Murakkabroq konveyerlar quyidagi bosqichlarni o‘z ichiga oladi:
 
-10. **Микросервисная архитектура (Microservices)**: Использование архитектуры, основанной на микросервисах, для более
-    гибкой и быстрой поставки.
+* Versiyalarni nazorat qilish tizimidan kodni olish va yig‘ishni amalga oshirish;
+* "Infratuzilma kod sifatida" yondashuvi orqali avtomatlashtirilgan infratuzilmani sozlash;
 
-Целью непрерывной поставки является создание процесса разработки, который позволяет командам доставлять новые версии приложения в любой момент времени с минимальными рисками и максимальной автоматизацией. Это позволяет организациям быстро реагировать на изменения в требованиях клиентов и рынка, улучшать качество и стабильность продукта и увеличивать эффективность разработки.
+* Kodni maqsadli muhitga nusxalash;
 
-Инструменты CI/CD помогают настраивать специфические параметры окружения, которые конфигурируются при развертывании. А также CI/CD-автоматизация выполняет необходимые запросы к веб-серверам, базам данных и другим сервисам, которые могут нуждаться в перезапуске или выполнении каких-то дополнительных действий при развертывании приложения.
+* Maqsadli muhit uchun [muhit o‘zgaruvchilarini](https://theqalead.com/topics/api-smoke-tests-cd-pipeline/) sozlash;
 
-Непрерывная интеграция и непрерывная поставка нуждаются в непрерывном тестировании, поскольку конечная цель - разработка качественных приложений. Непрерывное тестирование часто реализуется в виде набора различных автоматизированных тестов (регрессионных, производительности и других), которые выполняются в **CI/CD-конвейере** (pipeline, build chain и т.д.). Зрелая практика CI/CD позволяет реализовать непрерывное развертывание: при успешном прохождении кода через CI/CD-конвейер, сборки автоматически развертываются в продакшн-окружении. Команды, практикующие непрерывную поставку, могут позволить себе ежедневное или даже ежечасное развертывание.
+* Ilova komponentlarini joylashtirish (veb-serverlar, API-xizmatlar, ma’lumotlar bazalari); Uzluksiz testlash ko‘pincha turli xil avtomatlashtirilgan testlar to‘plami (regression, unumdorlik va boshqalar) ko‘rinishida amalga oshiriladi, ular CI/CD konveyerida (pipeline, build chain va boshqalar) amalga oshiriladi. Yetuk CI/CD amaliyoti uzluksiz joylashtirishni amalga oshirish imkonini beradi: kod CI/CD konveyeridan muvaffaqiyatli o‘tganda, yig‘malar ishlab chiqarish muhitida avtomatik ravishda joylashtiriladi.
 
-Типичный CD-**конвейер** состоит из этапов сборки, тестирования и развертывания. Более сложные конвейеры включают в себя следующие этапы:
+* Xizmatlarni qayta ishga tushirish yoki yangi o‘zgarishlarning ishlashi uchun zarur bo‘lgan xizmatlarni chaqirish kabi qo‘shimcha amallarni bajarish;
 
-* Получение кода из системы контроля версий и выполнение сборки;
-* Настройка инфраструктуры, автоматизированной через подход “инфраструктура как код”;
-* Копирование кода в целевую среду;
-* Настройка [переменных](https://theqalead.com/topics/api-smoke-tests-cd-pipeline/) окружения для целевой среды;
-* Развертывание компонентов приложения (веб-серверы, API-сервисы, базы данных);
-* Выполнение дополнительных действий, таких как перезапуск сервисов или вызов сервисов, необходимых для работоспособности новых изменений;
-* Выполнение тестов и откат изменений окружения в случае провала тестов;
-* Логирование и отправка оповещений о состоянии поставки.
+* Testlarni bajarish va testlar muvaffaqiyatsizlikka uchragan taqdirda muhitdagi o‘zgarishlarni bekor qilish;
+* Yetkazib berish holati haqidagi xabarlarni qayd etish va yuborish.
+Masalan, Jenkinsda konveyer Jenkinsfile faylida aniqlanadi, unda yig‘ish (build), sinovdan o‘tkazish (test) va joylashtirish (deploy) kabi turli bosqichlar tavsiflanadi. Shu bilan birga, konveyer bosqichlarida ishlatilishi mumkin bo‘lgan muhit o‘zgaruvchilari, maxfiy kalitlar, sertifikatlar va boshqa parametrlar tavsiflanadi. Post bo‘limida xatolarni qayta ishlash va bildirishnomalar sozlanadi. Murakkabroq CD-konveyerda ma’lumotlarni sinxronlash, axborot resurslarini arxivlash, yangilanishlar va tuzatishlarni o‘rnatish kabi qo‘shimcha bosqichlar bo‘lishi mumkin. CI/CD vositalari odatda plaginlarni qo‘llab-quvvatlaydi. Masalan, Jenkins tashqi platformalar bilan integratsiya qilish, foydalanuvchi interfeysini kengaytirish, ma’muriyat, manba kodini boshqarish va yig‘ish uchun 1500 dan ortiq plaginlarga ega.
+Bulutlarda CI/CD-konveyerlardan foydalanadigan ko‘plab jamoalar [Docker](https://www.software-testing.ru/library/testing/testing-for-beginners/3661-docker) kabi **konteynerlardan** va Kubernetes kabi **orkestratsiya tizimlaridan** foydalanadilar. Konteynerlar qadoqlash va yetkazib berishni standartlashtirish hamda doimiy bo‘lmagan yuklama bilan ishlayotgan muhitlarni kengaytirish va yo‘q qilishni soddalashtirish imkonini beradi. Konteynerlardan, kod sifatidagi infratuzilmadan (**IaaS**) va CI/CD konveyerlaridan birgalikda foydalanishning ko‘plab variantlari mavjud. Serversiz hisoblash arxitekturasi ilovalarni joylashtirish va masshtablashning yana bir usuli hisoblanadi. Serversiz muhitda infratuzilma to‘liq bulutli xizmat provayderi tomonidan boshqariladi va ilova uning sozlamalariga muvofiq zarur bo‘lganda resurslarni iste’mol qiladi. Masalan, AWSda serversiz ilovalar AWS Lambda funksiyalari orqali ishga tushiriladi, ularning joylashtirilishi Jenkins CI/CD konveyeriga plagin yordamida integratsiya qilinishi mumkin.
+_CI/CD haqida batafsil_ [_bu yerda_](https://martinfowler.com/articles/continuousIntegration.html) _va_ [_bu yerda_](https://martinfowler.com/delivery.html) _o‘qishingiz mumkin._
+**Konveyer bosqichlari**
+* Testlarni bajarish va testlar muvaffaqiyatsizlikka uchragan taqdirda atrof-muhitdagi o‘zgarishlarni bartaraf etish;
+* Yetkazib berish holati haqidagi xabarlarni qayd qilish va yuborish.
 
-Например, в Jenkins конвейер определяется в файле Jenkinsfile, в котором описываются различные этапы, такие как сборка (build), тестирование (test) и развертывание (deploy). Там же описываются переменные окружения, секретные ключи, сертификаты и другие параметры, которые можно использовать в этапах конвейера. В разделе post настраивается обработка ошибок и уведомления. В более сложном CD-конвейере могут быть дополнительные этапы, такие как синхронизация данных, архивирование информационных ресурсов, установка обновлений и патчей. CI/CD-инструменты обычно поддерживают плагины. Например, у Jenkins есть более 1500 плагинов для интеграции со сторонними платформами, для расширения пользовательского интерфейса, администрирования, управления исходным кодом и сборкой.
+Masalan, Jenkinsda konveyer Jenkinsfile faylida aniqlanadi, unda yig‘ish (build), sinovdan o‘tkazish (test) va joylashtirish (deploy) kabi turli bosqichlar tavsiflanadi. Shu bilan birga, konveyer bosqichlarida ishlatilishi mumkin bo‘lgan o‘zgaruvchan muhitlar, maxfiy kalitlar, sertifikatlar va boshqa parametrlar tavsiflanadi. Post bo‘limida xatolarni qayta ishlash va bildirishnomalar sozlanadi. Murakkabroq CD-konveyerda ma’lumotlarni sinxronlash, axborot resurslarini arxivlash, yangilanishlar va tuzatishlarni o‘rnatish kabi qo‘shimcha bosqichlar bo‘lishi mumkin. CI/CD vositalari odatda plaginlarni qo‘llab-quvvatlaydi. Masalan, Jenkins tashqi platformalar bilan integratsiya qilish, foydalanuvchi interfeysini kengaytirish, ma’muriyat, manba kodini boshqarish va yig‘ish uchun 1500 dan ortiq plaginlarga ega.
 
-Многие команды, использующие CI/CD-конвейеры в облаках используют **контейнеры**, такие как [Docker](https://www.software-testing.ru/library/testing/testing-for-beginners/3661-docker), и **системы оркестрации**, такие как Kubernetes. Контейнеры позволяют стандартизировать упаковку, поставку и упростить масштабирование и уничтожение окружений с непостоянной нагрузкой. Есть множество вариантов совместного использования контейнеров, инфраструктуры как код (**Iaas**) и CI/CD-конвейеров. Архитектура бессерверных вычислений представляет собой еще один способ развертывания и масштабирования приложений. В бессерверном окружении инфраструктурой полностью управляет поставщик облачных услуг, а приложение потребляет ресурсы по мере необходимости в соответствии с его настройками. Например, в AWS бессерверные приложения запускаются через функции AWS Lambda, развертывание которых может быть интегрировано в CI/CD-конвейер Jenkins с помощью плагина.
+Bulutlarda CI/CD-konveyerlardan foydalanadigan ko‘plab jamoalar [Docker] (https://www.software-testing.ru/library/testing/testing-for-beginners/3661-docker) kabi **konteynerlardan** va Kubernetes kabi **orkestratsiya tizimlaridan** foydalanadilar. Konteynerlar qadoqlash, yetkazib berishni standartlashtirish va doimiy bo‘lmagan yuk bilan atrof-muhitni kengaytirish va yo‘q qilishni soddalashtirish imkonini beradi. Konteynerlardan, kod (**Iaas**) va CI/CD konveyerlari kabi infratuzilmalardan birgalikda foydalanishning ko‘plab variantlari mavjud. Serversiz hisoblash arxitekturasi ilovalarni joylashtirish va masshtablashning yana bir usuli hisoblanadi. Serversiz muhitda infratuzilma to‘liq bulutli xizmat provayderi tomonidan boshqariladi va ilova uning sozlamalariga muvofiq zarur bo‘lganda resurslarni sarflaydi. Masalan, AWSda serversiz ilovalar AWS Lambda funksiyalari orqali ishga tushiriladi, ularning joylashtirilishi Jenkins CI/CD konveyeriga plagin yordamida integratsiya qilinishi mumkin.
 
-_Больше о CI/CD можно почитать_ [_тут_](https://martinfowler.com/articles/continuousIntegration.html) _и_ [_тут_](https://martinfowler.com/delivery.html)_._
+CI/CD haqida _batafsil ma’lumotni_ [_bu yerda_](https://martinfowler.com/articles/continuousIntegration.html) _va_ [_bu yerda_](https://martinfowler.com/delivery.html) _o‘qishingiz mumkin._
 
-**Этапы конвейера**
+**Konveyer bosqichlari**
 
-В момент, когда триггерится сборка, например, когда разработчик сделал коммит в свою ветку, запускается процесс, который выполняется специально написанными скриптами и утилитами. Этот процесс состоит из нескольких обязательных шагов. Простой пример для PR:
+Yig‘ish jarayoni ishga tushirilganda, masalan, ishlab chiquvchi o‘z tarmog‘iga kommit qilganda, maxsus yozilgan skriptlar va yordamchi dasturlar tomonidan bajariladigan jarayon boshlanadi. Bu jarayon bir nechta majburiy bosqichlardan iborat. PR uchun oddiy misol:
 
-* При открытии каждого Pull Request, Git-сервер отправляет уведомление CI-серверу;
-* CI-сервер клонирует репозиторий, проверяет исходную ветку (например bugfix/wrong-sorting), и сливает код с кодом master-ветке;
-* Тогда запускается билд-скрипт (сценарий сборки). Например ./gradlew build;
-* Если эта команда возвращает код ответа “0”, то билд успешно выполнен. (Другой ответ означает ошибку);
-* CI-сервер направляет уведомление об успешном билде на Git-сервер;
-* Если билд был успешен, то Pull Request разрешается слить с существующим кодом. (Если не успешен, то, соответственно, не разрешается).
+* Har bir Pull Request ochilganda, Git-server CI-serverga xabar yuboradi;
+* CI-server repozitoriyni klonlaydi, dastlabki tarmoqni tekshiradi (masalan, bugfix/wrong-sorting) va kodni master-tarmoq bilan birlashtiradi;
+* So‘ngra build-skript (yig‘ish ssenariysi) ishga tushiriladi. Masalan: ./gradlew build;
+* Agar bu buyruq "0" javob kodini qaytarsa, build muvaffaqiyatli bajarilgan hisoblanadi. (Boshqa javob xatolikni anglatadi);
+* CI-server muvaffaqiyatli build haqidagi xabarni Git-serverga yuboradi;
+* Agar build muvaffaqiyatli bo‘lsa, Pull Request’ni mavjud kod bilan birlashtirish ruxsat etiladi. (Agar muvaffaqiyatsiz bo‘lsa, tegishli ravishda ruxsat berilmaydi).
 
-Ошибка в любом из шагов приводит к полному падению всей сборки. Ну и, само собой разумеется, шаги расположены в таком порядке, чтобы сужать воронку потенциальных проблем. Если Quality Gate предыдущего этапа не пройдет, то на проверку следующего уже можно не тратить ресурсы.
+Har qanday bosqichdagi xato butun yig‘ishning to‘liq buzilishiga olib keladi. Tabiiy ravishda, bosqichlar potensial muammolar doirasini toraytirish uchun shunday tartibda joylashtirilgan. Agar oldingi bosqichning Quality Gate’i o‘tmasa, keyingi bosqichni tekshirish uchun resurslarni sarflashning hojati yo‘q.
 
-Пример Quality Gates, которые встроены в pipeline [отсюда](https://habr.com/ru/company/otkritie/blog/568612/):
+Pipeline’ga o‘rnatilgan Quality Gate’larga misol [bu yerdan](https://habr.com/ru/company/otkritie/blog/568612/):
 
-* Сборка сервиса:
-  * Проверка наличия конфигурации корректного формата;
-  * Проверка стандартов оформления кода;
-  * Проверка на необходимое покрытие Unit-тестами;
-  * Генерации и публикации контрактов (контроль обратной совместимости).
-* Запуск Beta-тестов;
-* Обязательный code-review;
-* Сканирование на уязвимости.
+* Xizmatni yig‘ish:
+* To‘g‘ri format konfiguratsiyasining mavjudligini tekshirish;
+* Kodni rasmiylashtirish standartlarini tekshirish;
+* Unit-testlar bilan zaruriy qoplanishni tekshirish;
+* Kontraktlarni generatsiyalash va e’lon qilish (teskari moslikni nazorat qilish).
+* Beta-testlarni ishga tushirish;
+* Majburiy code-review;
+* Zaifliklarni skanerlash.
 
-Пример сферического пайплайна в вакууме [отсюда](https://habr.com/ru/company/rabota/blog/560922/):
+Vakuumda sferik pipeline’ga misol [bu yerdan](https://habr.com/ru/company/rabota/blog/560922/):
 
-* Code scanning: код проверяется на соответствие общему гайдлайну (linters), уязвимости (code security) и качество (code quality);
+* Code scanning: kod umumiy yo‘riqnomaga (linters), zaifliklarga (code security) va sifatga (code quality) muvofiqligi tekshiriladi;
 * Unit tests;
-* Build: этап для сборки artifacts/packages/images и т.д. Здесь уже можно задуматься о том, каким будет стратегия версионирования всего приложения. Во времена контейнеризации, в первую очередь интересуют образы для контейнеров и способы их версионирования;
-* Scan package: пакет/образ собрали. Теперь нужно просканировать его на уязвимости. Современные registry уже содержат инструментарий для этого;
-* Deploy: стадия для развертывания приложения в различных окружениях;
-* Integration testing: приложение задеплоили. Оно где-то живет в отдельном контуре. Наступает этап интеграционного тестирования. Тестирование может быть как ручным, так и автоматизированным;
-* Performance testing (load/stress testing): данный вид тестирования имеет смысл проводить на stage/pre-production окружениях. С тем условием, что ресурсные мощности на нем такие же, как в production;
-* Code Review / Approved: одним из важнейших этапов являются Merge Request. Именно в них могут производиться отдельные действия в pipeline перед слиянием, а также назначаться группы лиц, требующих одобрения перед слиянием.
+* Build: artifacts/packages/images va hokazolarni yig‘ish bosqichi. Bu yerda butun ilovani versiyalash strategiyasi qanday bo‘lishi haqida o‘ylash mumkin. Konteynerlashtirish davrida, birinchi navbatda, konteynerlar uchun obrazlar va ularni versiyalashtirish usullari qiziqarli;
+* Scan package: paket/obraz yig‘ildi. Endi uni zaifliklar uchun skanerlash kerak. Zamonaviy registrlar allaqachon buning uchun vositalarni o‘z ichiga oladi;
+* Deploy: turli muhitlarda ilovani joylashtirish bosqichi;
+* Integration testing: ilova joylashtirildi. U alohida muhitda ishlaydi. Integratsion testlash bosqichi boshlanadi. Testlash ham qo‘lda, ham avtomatlashtirilgan bo‘lishi mumkin;
+* Performance testing (load/stress testing): bu turdagi testlarni stage/pre-production muhitida o‘tkazish maqsadga muvofiq. Uning resurs quvvatlari ishlab chiqarishdagi kabi bo‘lishi sharti bilan;
+* Code Review / Approved: Eng muhim bosqichlardan biri Merge Request hisoblanadi. Aynan ularda birlashtirish oldidan pipeline’da alohida harakatlar amalga oshirilishi, shuningdek, birlashtirish oldidan ma’qullanishi kerak bo‘lgan shaxslar guruhlari tayinlanishi mumkin.
 
-_Больше про build-agent можно почитать тут:_ [_TeamCity: настраиваем CI/CD в вашей команде_](https://habr.com/ru/company/tinkoff/blog/532546/) _и тут_ [_Что такое сборщик продукта_](https://habr.com/ru/post/595375/)_, про окружения тут_ [_Создаем инфраструктуру для интеграционных тестов_](https://habr.com/ru/company/2gis/blog/575688/)
+_Build-agent haqida ko‘proq ma’lumotni bu yerda o‘qishingiz mumkin:_ [_TeamCity: jamoangizda CI/CD ni sozlaymiz_](https://habr.com/ru/company/tinkoff/blog/532546/) _va bu yerda_ [_Mahsulot yig‘uvchi nima_](https://habr.com/ru/post/595375/)_, muhitlar haqida bu yerda_ [_Integratsiya testlari uchun infratuzilma yaratamiz_](https://habr.com/ru/company/2gis/blog/575688/)
 
-**Е2Е автотесты**
+**E2E avtotestlar**
 
-Теперь пора поговорить непосредственно про то, что чаще всего касается рядового автоматизатора - **Е2Е автотесты**. Как мы выяснили выше, до прогона Е2Е сборка сначала проходит несколько шагов, а условиями запуска чаще являются ключевые моменты: commit, pull request и merge request. В моей прошлой компании был очень простой конвейер, где на коммит в фича-ветку запускались тесты разработчика, на вливание в develop стартовали критичные Е2Е тесты, а на вливание в main уже всё что есть, включая регрессионные тесты. Теперь, когда известны места автотестов в конвейере, нужно еще понять, на чем эти тесты будут прогоняться и как имея скрипт автотеста его запустить в конвейере.
+Endi bevosita oddiy avtomatlashtiruvchiga eng ko‘p tegishli bo‘lgan narsa - **E2E avtotestlari** haqida gaplashish vaqti keldi. Yuqorida aniqlaganimizdek, E2E o‘tkazishdan oldin yig‘ish dastlab bir necha bosqichni bosib o‘tadi va ishga tushirish shartlari ko‘pincha asosiy nuqtalar hisoblanadi: commit, pull request va merge request. Mening oldingi kompaniyamda juda oddiy konveyer bor edi: feature-branch’ga kommit qilinganda ishlab chiquvchi testlari ishga tushardi, develop’ga qo‘shilish uchun esa muhim E2E testlari, master’ga qo‘shilish uchun esa regressiya testlarini ham o‘z ichiga olgan barcha testlar ishga tushardi. Endi, konveyerdagi avtotestlarning o‘rni ma’lum bo‘lgach, bu testlar nimada o‘tkazilishini va avtotest skriptini konveyerda qanday ishga tushirishni tushunish kerak.
 
-Все эти моменты конфигурируются в самом CI-агенте, в jenkins это были джобы (job). Пример: [How to Add your First Android Job to Jenkins](https://bugfender.com/blog/how-to-add-your-first-android-job-to-jenkins/). За запуск кода тестов, когда вы инициируете запуск из конвейера или локально, отвечает **Test Runner**. Это лишь одна из задач, в зону ответственности раннера [входят](https://habr.com/ru/company/avito/blog/516650/):
+Bu jihatlarning barchasi CI-agentning o‘zida shakllantiriladi, Jenkins’da bular job edi. Misol: [How to Add Your First Android Job to Jenkins](https://bugfender.com/blog/how-to-add-your-first-android-job-to-jenkins/). Konveyerdan yoki mahalliy ravishda ishga tushirishni boshlaganingizda test kodini ishga tushirish uchun **Test Runner** javobgar bo‘ladi. Bu faqat bir vazifa bo‘lib, runner’ning mas’uliyat doirasiga quyidagilar kiradi [manba](https://habr.com/ru/company/avito/blog/516650/):
 
-* подготовка окружения;
-* формирование набора тестов для исполнения;
-* запуск тестов;
-* получение результатов выполнения тестов;
-* подготовка отчетов о прохождении тестов;
-* сбор статистики.
+* muhitni tayyorlash;
+* bajarish uchun testlar to‘plamini shakllantirish;
+* testlarni ishga tushirish;
+* testlarni bajarish natijalarini olish;
+* test o‘tkazilganligi to‘g‘risidagi hisobotlarni tayyorlash;
+* statistika to‘plash.
 
-Несмотря на то, что с фреймворком поставляется также и раннер, существует возможность использования более совершенных сторонних раннеров.
+Freymvork bilan birga runner ham yetkazib berilgan bo‘lsa-da, yanada takomillashgan tashqi runner’lardan foydalanish imkoniyati mavjud.
 
-Параллельно с вопросом о том, какой раннер выбрать для тестов, перед вами встает другой: а на чем лучше запускать тесты? Есть три опции:
+Testlar uchun qaysi runner’ni tanlash kerakligi haqidagi savolga parallel ravishda, boshqa savol paydo bo‘ladi: testlarni nimada ishga tushirgan ma’qul? Uchta variant mavjud:
 
-* Настоящий девайс.
-  * Плюсы. Покажет проблемы, специфичные для конкретных устройств и прошивок. Многие производители меняют Android под себя - как UI, так и логику работы ОС. И бывает полезно проверить, что ваше приложение корректно работает в таком окружении.
-  * Минусы. Необходимо где-то добыть ферму устройств, организовать специальное помещение под них - необходима низкая температура, нежелательно попадание прямых солнечных лучей и т. д. Кроме того, аккумуляторы имеют свойство вздуваться и выходить из строя. А еще сами тесты могут менять состояние устройства, и вы не можете просто взять и откатиться на какой-то стабильный снепшот.
-* Чистый эмулятор. Под «чистым» мы подразумеваем, что вы запускаете эмулятор у себя или где-то на машине, используя установленный на эту машину AVD Manager.
-  * Плюсы. Быстрее, удобнее и стабильнее настоящего устройства. Создание нового эмулятора занимает считаные минуты. Никаких проблем с отдельным помещением, аккумуляторами и прочим.
-  * Минусы. Отсутствие упомянутых выше device specifics. Однако зачастую количество тестовых сценариев, завязанных на специфику устройства, ничтожно мало, и они не высокоприоритетные. Но самый главный минус - это плохая масштабируемость. Простая задача залить новую версию эмулятора на все хосты превращается в мучение.
-* Docker-образ Android-эмулятора. Docker решает недостатки чистых эмуляторов.
-  * Плюсы. Docker и соответствующая обвязка в виде подготовки и раскатки образа эмулятора - это полноценное масштабируемое решение, позволяющее быстро и качественно готовить эмуляторы и раскатывать их на все хосты, обеспечивая их достаточную изолированность.
-  * Минусы. Более высокий входной порог.
+* Haqiqiy qurilma.
+* Afzalliklari. Muayyan qurilmalar va mikrodasturlarga xos muammolarni ko‘rsatadi. Ko‘plab ishlab chiqaruvchilar Androidni o‘zlariga moslashtirmoqda - ham foydalanuvchi interfeysini, ham operatsion tizimning ishlash mantiqini. Ilovangiz bunday muhitda to‘g‘ri ishlayotganini tekshirish foydali bo‘ladi.
+* Kamchiliklari. Qurilmalar to‘plamini qayerdandir topish, ular uchun maxsus xona tashkil etish zarur - past harorat, to‘g‘ridan-to‘g‘ri quyosh nuri tushmasligi kerak va hokazo. Bundan tashqari, akkumulyatorlar shishib ketish va ishdan chiqish xususiyatiga ega. Shuningdek, testlarning o‘zi qurilma holatini o‘zgartirishi mumkin va siz shunchaki barqaror holatga qaytib o‘ta olmaysiz.
+* Sof emulyator. "Sof" deganda biz emulyatorni o‘zingizda yoki kompyuteringizda o‘rnatilgan AVD Manager yordamida ishga tushirishingizni nazarda tutamiz.
+* Afzalliklari. Haqiqiy qurilmadan tezroq, qulayroq va barqarorroq. Yangi emulyator yaratish uchun bir necha daqiqa kifoya. Alohida xona, akkumulyatorlar va boshqalar bilan bog‘liq muammolar yo‘q.
+* Kamchiliklari. Yuqorida aytib o‘tilgan qurilma xususiyatlarining yo‘qligi. Biroq, ko‘pincha qurilmaning o‘ziga xos xususiyatlariga bog‘liq bo‘lgan test ssenariylari soni juda oz va ular yuqori ustuvorlikka ega emas. Ammo eng asosiy kamchilik - bu yomon miqyoslanish. Emulyatorning yangi versiyasini barcha xostlarga yuklashning oddiy vazifasi azobli jarayonga aylanadi.
+* Android emulyatorining Docker-tasviri. Docker sof emulyatorlarning kamchiliklarini bartaraf etadi.
+* Afzalliklari. Docker va emulyator tasvirini tayyorlash hamda tarqatish ko‘rinishidagi tegishli kompleks - bu emulyatorlarni tez va sifatli tayyorlash va ularni barcha xostlarga yoyish imkonini beruvchi to‘liq miqyosli yechim bo‘lib, ularning yetarli darajada izolyatsiyasini ta’minlaydi.
+* Kamchiliklari. Kirish chegarasi yuqoriroq.
 
-В сети есть разные Docker-образы Android-эмуляторов:
+Internetda Android emulyatorlarining turli xil Docker tasvirlari mavjud:
 
-* [Docker image от Avito](https://avito-tech.github.io/avito-android/docs/ci/containers/);
-* [Docker image от Google](https://github.com/google/android-emulator-container-scripts);
-* [Docker image от Agoda](https://github.com/agoda-com/docker-emulator-android).
+* [Avito‘dan Docker tasviri](https://avito-tech.github.io/avito-android/docs/ci/containers/);
+* [Google’dan Docker tasviri](https://github.com/google/android-emulator-container-scripts);
+* [Agoda’dan Docker tasviri](https://github.com/agoda-com/docker-emulator-android).
 
-Предстоит сделать сложный выбор между облачным решением, локальным решением с нуля и локальным решением на базе чего-то, если в компании есть своя инфраструктура по запуску тестов других платформ. Вся эта инфраструктура уже связывается с раннером для запуска тестов, после чего уже решаются остальные моменты, такие как вывод отчета по прогону тестов (например, Allure) и внедрение/синхронизация с TMS.
+Agar kompaniyada boshqa platformalarni sinovdan o‘tkazish uchun o‘z infratuzilmasi bo‘lsa, bulutli yechim, noldan mahalliy yechim va mavjud asosga qurilgan mahalliy yechim o‘rtasida murakkab tanlov qilish kerak bo‘ladi. Bu infratuzilmaning barchasi allaqachon testlarni ishga tushirish uchun runner bilan bog‘lanadi, shundan so‘ng testlarni o‘tkazish bo‘yicha hisobotni chiqarish (masalan, Allure) va TMS bilan integratsiya/sinxronizatsiya kabi boshqa masalalar hal qilinadi.
 
-Источники:
+Manbalar:
 
-* [Что такое CI/CD? Разбираемся с непрерывной интеграцией и непрерывной поставкой](https://habr.com/ru/company/otus/blog/515078/)
-* [Разбираемся в CI/CD](https://testengineer.ru/razbiraemsya-v-ci-cd/)
-* [Автотесты на Android. Картина целиком](https://habr.com/ru/company/kaspersky/blog/510230/)
+* [CI/CD nima? Uzluksiz integratsiya va uzluksiz yetkazib berish haqida] (https://habr.com/ru/company/otus/blog/515078/)
+* [CI/CD haqida batafsil] (https://testengineer.ru/razbiraemsya-v-ci-cd/)
+* [Android uchun avtomatik testlar. To‘liq manzara] (https://habr.com/ru/company/kaspersky/blog/510230/)
 
-Доп. материал:
+Qo‘shimcha material:
 
 * [Continuous Testing в CI/CD: что это, зачем нужно и как работает](https://habr.com/ru/company/southbridge/blog/670422/)
 * [DevOps инструменты не только для DevOps. Процесс построения инфраструктуры автоматизации тестирования с нуля](https://habr.com/ru/post/497918/)

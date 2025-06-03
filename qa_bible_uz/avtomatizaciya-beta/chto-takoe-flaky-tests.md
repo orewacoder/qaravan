@@ -1,59 +1,59 @@
 ---
-title: "Что такое flaky tests?"
+title: "Flaky testlar nima?"
 ---
 
-# Что такое flaky tests?
+# Flaky testlar nima?
 
-Флейки-тесты, они же “флаки”, они же нестабильные, они же ненадежные, они же “моргающие”, они же “случайно успешные”
+Flaky testlar, ya’ni "flaklar", beqaror, ishonchsiz, "miltillovchi", "tasodifan muvaffaqiyatli" testlar
 
-Flaky-тест, буквально “хлопчатый”, “рассыпающийся на кусочки”, в индустрии ИТ-тестирования означает нестабильный, ненадежный тест, который иногда “pass”, иногда “fail”, и трудно понять, по какой закономерности. Убийца времени тестировщика, источник нервозности в команде.
+Flaky-test, so‘zma-so‘z "mo‘rt", "bo‘laklarga bo‘linib ketadigan" ma’nosini anglatadi. IT-test sohasida bu atama beqaror, ishonchsiz testni bildiradi. Bunday test ba’zan "o‘tadi", ba’zan "o‘tmaydi" va qaysi qonuniyat bo‘yicha ekanligini tushunish qiyin. Bu testlovchining vaqtini bekorga sarflaydigan, jamoada asabiylashuvga sabab bo‘ladigan omildir.
 
-На такие тесты тратится много времени. Возникает задержка, пока команда не разберется, в чем дело. Конечно, страдает продуктивность.
+Bunday testlarga ko‘p vaqt ketadi. Jamoa muammoni aniqlamaguncha kechikish yuzaga keladi. Tabiiyki, mahsuldorlik pasayadi.
 
-**Причины кратко**
+**Qisqacha sabablar**
 
-* Тестовый фреймворк изначально плохо собран. Его код не проверен на соответствие задачам. Совет: код фреймворка должен быть в достаточной мере чистым; должны соблюдаться принципы DRY, использоваться Object design pattern страницы, или Factory design pattern.
-* В тесте слишком много hardcoded-данных. Нестабильность результатов тестов возникает, когда эти тесты запускаются в другом окружении. Надо откорректировать hardcoded-данные (практика показывает, что это чаще всего неправильно прописанные пути к чему-то, неправильные IP-адреса и т.п.).
-* Кэширование предыдущего состояния теста и запуск нового теста с кэшированными данными. Лучше чистить кэш для каждого выполнения тестов. Проверяй данные перед каждым тестом, и очищай их состояние после каждого теста.
-* По внешней причине, не связанной с самими тестами. Плохое подключение к интернету или к конкретной базе данных; неподходящая версия браузера; утечки памяти.
-* “Потеря связи” со сторонним (3rd party) компонентом также приводит к ненадежности; здесь поможет тщательная проверка сторонних компонентов перед запуском.
-* Неэффективные селекторы элементов (например XPATH), или некорректные координаты элементов. Селекторы можно поменять достаточно легко, корректируя дизайн страницы. Рекомендуется работать с более надежными селекторами (например “id” или “name”).
-* Злоупотребление “sleep”-командами, останавливающими выполнение в ожидании чего-то. Здесь помогает замена “sleep”-ожидания на более надежное в этом плане “wait”-ожидание (пока элемент появится). Это экономит время и (почти) устраняет “моргание” тестов во многих случаях.
+* Test freymvorki boshidanoq yaxshi tuzilmagan. Uning kodi vazifalarga muvofiqligi tekshirilmagan. Maslahat: freymvork kodi yetarlicha toza bo‘lishi kerak; DRY tamoyillariga rioya qilish, sahifaning Object dizayn namunasi yoki Factory dizayn namunasiadan foydalanish lozim.
+* Testda qattiq kodlangan ma’lumotlar juda ko‘p. Test natijalari beqarorligi bu testlar boshqa muhitda ishga tushirilganda yuzaga keladi. Qattiq kodlangan ma’lumotlarni tuzatish kerak (tajriba shuni ko‘rsatadiki, bu ko‘pincha noto‘g‘ri yozilgan yo‘llar, noto‘g‘ri IP-manzillar va shu kabilar).
+* Testning oldingi holatini keshlash va keshlangan ma’lumotlar bilan yangi testni ishga tushirish. Har bir test bajarilishi uchun keshni tozalash ma’qul. Har bir testdan oldin ma’lumotlarni tekshiring va har bir testdan keyin ularning holatini tozalang.
+* Testlar bilan bog‘liq bo‘lmagan tashqi sabablar. Internetga yoki ma’lum bir ma’lumotlar bazasiga yomon ulanish; brauzerning nomuvofiq versiyasi; xotira sizib chiqishi.
+* Uchinchi tomon komponenti bilan "aloqaning uzilishi" ham ishonchsizlikka olib keladi. Bu holda ishga tushirishdan oldin tashqi komponentlarni sinchkovlik bilan tekshirish yordam beradi.
+* Samarasiz element selektorlari (masalan, XPATH) yoki elementlarning noto‘g‘ri koordinatalari. Selektorlarni sahifa dizaynini o‘zgartirish orqali oson almashtirish mumkin. Ishonchliroq selektorlar (masalan, "id" yoki "name") bilan ishlash tavsiya etiladi.
+* Biror narsani kutib, bajarishni to‘xtatuvchi "sleep" buyruqlarini suiiste’mol qilish. Bu yerda "sleep" kutishni ishonchliroq bo‘lgan "wait" bilan almashtirish yordam beradi (element paydo bo‘lguncha). Bu vaqtni tejaydi va ko‘p hollarda testlarning "miltillashini" (deyarli) bartaraf etadi.
 
-**Что делать**
+**Nima qilish kerak**
 
-Если есть время, надо документировать такие тесты, и отправлять в “карантин”. После выполнения тестов, проверь выведенные данные. Проверь логи, дампы памяти, текущее состояние системы. Возможно скриншоты, если это UI-тесты. В 90% случаев причина выяснится уже на этом этапе! Если нет, создай тикеты насчет этих тестов, и проверь их по одному в карантине, тщательно. Исключи тесты в карантине из пайплайна до конца проверки, пока не добьешься стабильности. В Google тоже бывают flaky-тесты, говорит Hala Samir из Google; как они решают эту проблему? Стандартно, например анализируют выведенные данные, проверяя корреляцию с функциями возможно вызвавшими нестабильность, по возможности без перезапуска тестов.
+Vaqt bo‘lsa, bunday testlarni hujjatlashtirish va "karantin"ga jo‘natish kerak. Testlarni bajargandan so‘ng, chiqarilgan ma’lumotlarni tekshiring. Loglar, xotira damplari, tizimning joriy holatini ko‘zdan kechiring. Agar UI-testlar bo‘lsa, skrinshot olish mumkin. 90% hollarda sabab shu bosqichdayoq aniqlanadi! Agar aniqlanmasa, bu testlar haqida turdagi vazifalar yarating va ularni karantinda birma-bir sinchiklab tekshiring. Barqarorlikka erishmaguncha, tekshiruv tugaguncha karantin testlarini pipelinedan chiqarib tashlang. Google’da ham flaky-testlar uchraydi, deydi Google’dan Hala Samir. Ular bu muammoni qanday hal qiladi? Odatda, masalan, chiqarilgan ma’lumotlarni beqarorlikni keltirib chiqarishi mumkin bo‘lgan funksiyalar bilan bog‘liqligini tekshirib, iloji boricha testlarni qayta ishga tushirmasdan tahlil qiladilar.
 
-**Еще раз о причинах**
+**Yana sabablar haqida**
 
-Если разделить причины по происхождению:
+Sabablarni kelib chiqishiga ko‘ra ajratadigan bo‘lsak:
 
-* Тесты сами по себе имеют “склонность к нестабильности”
-* Проблемы с фреймворком
-* Проблемы в подключаемых библиотеках/сервисах
-* Проблемы в операционной системе / в устройстве
+* Testlarning o‘zida "beqarorlikka moyillik" mavjud
+* Freymvork muammolari
+* Ulangan kutubxona/xizmatlardagi muammolar
+* Operatsion tizim/qurilmadagi muammolar
 
-**Подробнее.**
+**Batafsil.**
 
-Как уже говорилось выше, нестабильность результатов часто возникает из-за неправильной инициализации, или «очистки». Реже, но тоже случается - от неправильно подобранных тестовых данных. Головная боль тестировщиков - асинхронные действия, на это следует обращать особое внимание. Более простая причина - неправильный порядок запуска тестов.
+Yuqorida aytib o‘tilganidek, natijalarning beqarorligi ko‘pincha noto‘g‘ri initsializatsiya yoki "tozalash" natijasida yuzaga keladi. Kamroq hollarda, lekin noto‘g‘ri tanlangan test ma’lumotlaridan ham shunday bo‘ladi. Testlovchilarning bosh og‘rig‘i asinxron harakatlardir, bunga alohida e’tibor berish lozim. Oddiyroq sabab - testlarni noto‘g‘ri ishga tushirish tartibi.
 
-Проблемы с фреймворком: часто фреймворк не сконфигурирован на выделение достаточных системных ресурсов; или неправильно планирует очередность запуска тестов, из-за чего они “перекрываются” между собой.
+Freymvork bilan bog‘liq muammolar: ko‘pincha freymvork yetarli tizim resurslarini ajratish uchun moslashtirilmagan; yoki testlarni ishga tushirish ketma-ketligini noto‘g‘ri rejalashtiradi, natijada ular bir-birini "to‘sib qo‘yadi".
 
-Если в проекте много сторонних библиотек или подключаемых сервисов, у них может быть свое “дерево зависимостей”, где и таятся причины нестабильности. Например переменные некорректно инициализируются; память “утекает”; какой-то ресурс не отвечает на запрос; и т.п. Чтобы исключить эти проблемы, в идеале надо стремиться к “герметичности” тестовой среды, то есть тестовая среда не должна иметь внешних зависимостей.
+Agar loyihada ko‘plab uchinchi tomon kutubxonalari yoki ulanadigan xizmatlar bo‘lsa, ularda beqarorlik sabablari yashiringan "bog‘liqlik daraxti" bo‘lishi mumkin. Masalan, o‘zgaruvchilar noto‘g‘ri initsializatsiya qilinadi; xotira "oqib ketadi"; qandaydir resurs so‘rovga javob bermaydi va hokazo. Ushbu muammolarni bartaraf etish uchun, ideal holda, test muhitining "germetikligi"ga intilish kerak, ya’ni test muhiti tashqi bog‘liqliklarga ega bo‘lmasligi lozim.
 
-Операционная система и тестовые устройства. Банально, но причиной иногда бывает нестабильное интернет-подключение. Также банальная причина - ошибки чтения/записи на физический носитель данных.
+Operatsion tizim va test qurilmalari. Oddiy tuyulsa-da, ba’zida bunga beqaror internet aloqasi sabab bo‘ladi. Shuningdek, oddiy sabab - jismoniy ma’lumotlar tashuvchisiga o‘qish/yozish xatolari.
 
-**Статистика**&#x20;
+**Statistika**&#x20;
 
-Статистически (со слов тестировщиков), основные причины нестабильности это: на первом месте по «сложности разбора» асинхронные операции (async wait); затем многопоточные операции; затем неправильный порядок запуска тестов; затем аппаратные проблемы (с сетью и синхронизацией времени, или с памятью).
+Statistik ma’lumotlarga ko‘ra (testlovchilarning so‘zlariga ko‘ra), beqarorlikning asosiy sabablari quyidagilardir: "tahlil qilish qiyinligi" bo‘yicha birinchi o‘rinda asinxron operatsiyalar (async wait); keyin ko‘p oqimli operatsiyalar; so‘ngra testlarni noto‘g‘ri ishga tushirish tartibi; va nihoyat apparat muammolari (tarmoq va vaqt sinxronizatsiyasi yoki xotira bilan bog‘liq).
 
-Ну, а если найти причину нестабильных тестов и исправить их - не получается никак, то, как говорил вице-президент Unity3D Алан Берд, “нестабильные тесты это еще хуже, чем вообще без тестов”.
+Agar beqaror testlarning sababini topib, ularni tuzatishning iloji bo‘lmasa, Unity3D vitse-prezidenti Alan Berd aytganidek, "beqaror testlar umuman testsiz o‘tkazilgandan ham yomonroqdir".
 
-Источники:
+Manbalar:
 
-* [Нестабильные тесты. Почему они существуют и что с ними делать](https://testengineer.ru/nestabilnye-testy-pochemu-oni-sushchestvuyut-i-chto-s-nimi-delat/)
+* [Beqaror testlar. Ular nima uchun mavjud va ular bilan nima qilish kerak](https://testengineer.ru/nestabilnye-testy-pochemu-oni-sushchestvuyut-i-chto-s-nimi-delat/)
 
-Доп. материал:
+Qo‘shimcha materiallar:
 
 * [Blog: Flaky Testing](https://www.developsense.com/blog/2021/02/flaky-testing/)
 * [Flaky-тесты: Откуда ноги растут. Опыт Uber](https://habr.com/ru/post/565806/)

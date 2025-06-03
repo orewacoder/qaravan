@@ -1,36 +1,36 @@
----
-title: "Что нужно автоматизировать?"
----
+-
+title: "Nimani avtomatlashtirish kerak?"
+-
 
-# Что нужно автоматизировать?
+# Nimani avtomatlashtirish kerak?
 
 ![](https://lh6.googleusercontent.com/yDbU5SIioPOuXUCODDzKU\_bID9PTPggk12UDYTBN9UTdP02fGiaKqbV5YL0KgWbnz-HLpzLQje\_5ROaA1t0GHhrappPZZOQxvABAQaAHMhllGxmPmRFnMlT\_j\_R0OhVDoubluW70)
 
-**Какие модули и места следует автоматизировать?**
+**Qaysi modullar va joylarni avtomatlashtirish lozim?**
 
-* Участки кода, выполнение которых трудно визуализировать и получить четкую информацию о процессах (например, back-end процессы, запись в базу данных, сохранение логов в файл);
-* Функциональность продукта, которая часто используется и связана с высоким риском ошибок. Автоматизация тестирования таких узлов позволит быстрее обнаруживать ошибки и, соответственно, быстрее их устранять;
-* Работа с типовыми операциями, такими как создание, чтение, обновление и удаление данных (CRUD). Например, формы с большим количеством полей. Цель - автоматизировать ввод данных и проверить правильность результатов;
-* Обработка сообщений об ошибках. Необходима автоматизация обработки некорректных данных и проверки сообщений об ошибках;
-* Комплексное тестирование всей системы, чтобы проверить ее работу как единого целого (end-to-end testing);
-* Проверка числовых массивов, которые используются для математических операций;
-* Проверка корректности отображения результатов поиска по нужным данным;
-* Проверка функциональности, связанной с безопасностью приложения, такая как проверка наличия уязвимостей веб-приложения;
-* Автоматизированное тестирование процессов масштабирования и управления ресурсами, таких как процессы добавления и удаления серверов из кластера;
-* Тестирование производительности, включая оценку времени выполнения операций и реакции системы на нагрузку;
-* Проверка совместимости с различными платформами и устройствами, таких как разные браузеры, операционные системы и мобильные устройства.
+* Bajarilishini ko‘z bilan kuzatish va jarayonlar haqida aniq ma’lumot olish qiyin bo‘lgan kod qismlari (masalan, orqa fon jarayonlari, ma’lumotlar bazasiga yozish, loglarni faylga saqlash);
+* Mahsulotning tez-tez ishlatiladigan va xato xavfi yuqori bo‘lgan funksionalligi. Bunday qismlarni testlashni avtomatlashtirish xatolarni tezroq aniqlash va ularni tezroq bartaraf etish imkonini beradi;
+* Ma’lumotlarni yaratish, o‘qish, yangilash va o‘chirish (CRUD) kabi odatiy operatsiyalar bilan ishlash. Masalan, maydonlar soni ko‘p bo‘lgan shakllar. Maqsad - ma’lumotlarni kiritishni avtomatlashtirish va natijalarning to‘g‘riligini tekshirish;
+* Xatolar haqidagi xabarlarni qayta ishlash. Noto‘g‘ri ma’lumotlarni qayta ishlash va xatolar haqidagi xabarlarni tekshirishni avtomatlashtirish zarur;
+* Butun tizimning yaxlit ishlashini tekshirish uchun uni kompleks sinovdan o‘tkazish (end-to-end testing);
+* Matematik amallar uchun ishlatiladigan sonli massivlarni tekshirish;
+* Kerakli ma’lumotlar bo‘yicha qidiruv natijalarining to‘g‘ri ko‘rsatilganligini tekshirish;
+* Ilova xavfsizligi bilan bog‘liq funksiyalarni tekshirish, masalan, veb-ilovadagi zaifliklarni aniqlash;
+* Masshtablash va resurslarni boshqarish jarayonlarini, masalan, serverlarni klasterga qo‘shish va undan olib tashlash jarayonlarini avtomatlashtirilgan tarzda sinovdan o‘tkazish;
+* Operatsiyalarni bajarish vaqtini va tizimning yuklamaga javobini baholashni o‘z ichiga olgan unumdorlikni sinovdan o‘tkazish;
+* Turli brauzerlar, operatsion tizimlar va mobil qurilmalar kabi turli platformalar va qurilmalar bilan moslashuvini tekshirish.
 
-Источники:
+Manbalar:
 
-* [Какие места в проекте нужно автоматизировать в первую очередь?](https://software-testing.org/automation-testing/kakie-mesta-v-proekte-nuzhno-avtomatizirovat-v-pervuyu-ochered.html)
+* [Loyihada qaysi joylarni birinchi navbatda avtomatlashtirish kerak?](https://software-testing.org/automation-testing/kakie-mesta-v-proekte-nuzhno-avtomatizirovat-v-pervuyu-ochered.html)
 
-Доп. материал:
+Qo‘shimcha materiallar:
 
-* [Автоматизировать или нет: спорные кейсы, плюсы и минусы автотестов](https://habr.com/ru/post/653721/)
-* [How To Select Correct Test Cases For Automation Testing (And Ultimately Achieve A Positive Automation ROI)](https://www.softwaretestinghelp.com/manual-to-automation-testing-process-challenges/)
-* [How To Implement Efficient Test Automation In The Agile World](https://www.softwaretestinghelp.com/automation-in-agile-world/)
-* [Right Tests for Automation](https://www.softwaretestinghelp.com/automation-testing-tutorial-1/#:\~:text=to%20strategize%20automation.-,Right%20Tests%20for%20Automation,-The%20best%20way)
-* [Решаем, что и когда автоматизировать, и нужно ли](https://testengineer.ru/reshaem-chto-i-kogda-avtomatizirovat/)
-* [Не автоматизируйте test cases](https://habr.com/ru/post/652499/)
-* [Автоматизация тестирования: что можно, а что не нужно](https://cleverics.ru/digital/2021/01/sw-testing-automation/)
-* [Лучшие практики автоматизации тестирования: решение, что и когда автоматизировать](https://telegra.ph/Luchshie-praktiki-avtomatizacii-testirovaniya-reshenie-chto-i-kogda-avtomatizirovat-05-06)
+* [Avtomatlashtirish yoki yo‘q: bahsli holatlar, avtotestlarning afzalliklari va kamchiliklari](https://habr.com/ru/post/653721/)
+* [Avtomatlashtirish sinovlari uchun to‘g‘ri sinov holatlarini qanday tanlash mumkin (va pirovardida ijobiy avtomatlashtirish rentabelligiga erishish)](https://www.softwaretestinghelp.com/manual-to-automation-testing-process-challenges/)
+* [Agile dunyoda samarali testlarni avtomatlashtirishni qanday amalga oshirish mumkin](https://www.softwaretestinghelp.com/automation-in-agile-world/)
+* [Avtomatlashtirish uchun to‘g‘ri testlar](https://www.softwaretestinghelp.com/automation-testing-tutorial-1/#:\~:text=to%20strategize%20automation.-,Right%20Tests%20for%20Automation,-The%20best%20way)
+* [Nimani va qachon avtomatlashtirish kerakligini va zarurligini hal qilamiz](https://testengineer.ru/reshaem-chto-i-kogda-avtomatizirovat/)
+* [Test keyslarini avtomatlashtirmang](https://habr.com/ru/post/652499/)
+* [Testlashni avtomatlashtirish: nima mumkin va nima kerak emas](https://cleverics.ru/digital/2021/01/sw-testing-automation/)
+* [Testlashni avtomatlashtirishning eng yaxshi amaliyotlari: nimani va qachon avtomatlashtirish kerakligini hal qilish](https://telegra.ph/Luchshie-praktiki-avtomatizacii-testirovaniya-reshenie-chto-i-kogda-avtomatizirovat-05-06)
