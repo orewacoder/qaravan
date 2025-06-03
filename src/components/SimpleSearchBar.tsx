@@ -87,21 +87,26 @@ export default function SimpleSearchBar({ lang }: { lang: Locale }) {
       {showResults && (
         <div 
           style={{
-            position: 'absolute',
-            top: '100%',
-            left: '0',
-            right: '0',
+            position: 'fixed',
+            top: '200px',
+            left: '50px',
+            right: '50px',
             zIndex: 999999,
-            backgroundColor: 'white',
-            border: '2px solid red',
+            backgroundColor: '#ff0000',
+            border: '5px solid #00ff00',
             borderRadius: '12px',
-            boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.25)',
-            maxHeight: '384px',
+            boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.9)',
+            maxHeight: '400px',
             overflowY: 'auto',
             marginTop: '8px',
             display: 'block',
             visibility: 'visible',
-            opacity: '1'
+            opacity: 1,
+            width: 'auto',
+            height: 'auto',
+            minHeight: '100px',
+            minWidth: '300px',
+            padding: '20px'
           }}
         >
           {/* Отладочная информация */}
