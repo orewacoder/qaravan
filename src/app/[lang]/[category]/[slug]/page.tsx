@@ -85,27 +85,27 @@ export default async function ArticlePage({
 
       {/* Article Header */}
       <header className="mb-12">
-        <div className="bg-white/60 dark:bg-gray-800/60 backdrop-blur-sm rounded-3xl p-8 shadow-xl border border-gray-200/50 dark:border-gray-700/50">
-          <div className="flex items-center space-x-3 mb-6">
-            <span className="text-sm font-medium text-blue-600 dark:text-blue-400 bg-blue-100 dark:bg-blue-900/30 px-3 py-1 rounded-full">
+        <div className="bg-white/60 dark:bg-gray-800/60 backdrop-blur-sm rounded-3xl p-4 sm:p-6 lg:p-8 shadow-xl border border-gray-200/50 dark:border-gray-700/50">
+          <div className="flex items-center space-x-3 mb-4 sm:mb-6">
+            <span className="text-xs sm:text-sm font-medium text-blue-600 dark:text-blue-400 bg-blue-100 dark:bg-blue-900/30 px-2 sm:px-3 py-1 rounded-full">
               {categoryName}
             </span>
-            <span className="text-sm text-gray-500 dark:text-gray-400">
+            <span className="text-xs sm:text-sm text-gray-500 dark:text-gray-400">
               {article.readingTime}
             </span>
             {article.date && (
-              <span className="text-sm text-gray-500 dark:text-gray-400">
+              <span className="text-xs sm:text-sm text-gray-500 dark:text-gray-400">
                 {new Date(article.date).toLocaleDateString(lang === 'ru' ? 'ru-RU' : 'uz-UZ')}
               </span>
             )}
           </div>
           
-          <h1 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent mb-6">
+          <h1 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent mb-4 sm:mb-6 leading-tight break-words">
             {article.title}
           </h1>
           
           {article.description && (
-            <p className="text-xl text-gray-600 dark:text-gray-300 leading-relaxed mb-6">
+            <p className="text-sm sm:text-base lg:text-xl text-gray-600 dark:text-gray-300 leading-relaxed mb-4 sm:mb-6">
               {article.description}
             </p>
           )}
@@ -115,7 +115,7 @@ export default async function ArticlePage({
               {article.tags.map((tag) => (
                 <span 
                   key={tag} 
-                  className="text-sm text-gray-600 dark:text-gray-400 bg-gray-100 dark:bg-gray-700 px-3 py-1 rounded-full"
+                  className="text-xs sm:text-sm text-gray-600 dark:text-gray-400 bg-gray-100 dark:bg-gray-700 px-2 sm:px-3 py-1 rounded-full"
                 >
                   #{tag}
                 </span>
@@ -127,29 +127,29 @@ export default async function ArticlePage({
 
       {/* Article Content */}
       <main className="mb-12">
-        <div className="bg-white/60 dark:bg-gray-800/60 backdrop-blur-sm rounded-3xl p-8 shadow-xl border border-gray-200/50 dark:border-gray-700/50">
-          <div className="prose prose-lg dark:prose-invert max-w-none prose-headings:text-gray-800 dark:prose-headings:text-gray-200 prose-p:text-gray-700 dark:prose-p:text-gray-300 prose-a:text-blue-600 dark:prose-a:text-blue-400 prose-code:text-purple-600 dark:prose-code:text-purple-400 prose-pre:bg-gray-900 prose-pre:text-gray-100">
+        <div className="bg-white/60 dark:bg-gray-800/60 backdrop-blur-sm rounded-3xl p-4 sm:p-6 lg:p-8 shadow-xl border border-gray-200/50 dark:border-gray-700/50">
+          <div className="prose prose-sm sm:prose-base lg:prose-lg dark:prose-invert max-w-none prose-headings:text-gray-800 dark:prose-headings:text-gray-200 prose-p:text-gray-700 dark:prose-p:text-gray-300 prose-a:text-blue-600 dark:prose-a:text-blue-400 prose-code:text-purple-600 dark:prose-code:text-purple-400 prose-pre:bg-gray-900 prose-pre:text-gray-100">
             <ReactMarkdown
               remarkPlugins={[remarkGfm]}
               rehypePlugins={[rehypeHighlight]}
               components={{
                 h1: ({ children }: any) => (
-                  <h1 className="text-3xl font-bold text-gray-800 dark:text-gray-200 mb-6 mt-8 first:mt-0">
+                  <h1 className="text-2xl sm:text-3xl font-bold text-gray-800 dark:text-gray-200 mb-4 sm:mb-6 mt-6 sm:mt-8 first:mt-0 break-words">
                     {children}
                   </h1>
                 ),
                 h2: ({ children }: any) => (
-                  <h2 className="text-2xl font-semibold text-gray-800 dark:text-gray-200 mb-4 mt-8">
+                  <h2 className="text-xl sm:text-2xl font-semibold text-gray-800 dark:text-gray-200 mb-3 sm:mb-4 mt-6 sm:mt-8 break-words">
                     {children}
                   </h2>
                 ),
                 h3: ({ children }: any) => (
-                  <h3 className="text-xl font-semibold text-gray-800 dark:text-gray-200 mb-3 mt-6">
+                  <h3 className="text-lg sm:text-xl font-semibold text-gray-800 dark:text-gray-200 mb-2 sm:mb-3 mt-4 sm:mt-6 break-words">
                     {children}
                   </h3>
                 ),
                 p: ({ children }: any) => (
-                  <p className="text-gray-700 dark:text-gray-300 mb-4 leading-relaxed">
+                  <p className="text-gray-700 dark:text-gray-300 mb-3 sm:mb-4 leading-relaxed break-words">
                     {children}
                   </p>
                 ),
@@ -157,7 +157,7 @@ export default async function ArticlePage({
                   const isInline = !className;
                   if (isInline) {
                     return (
-                      <code className="bg-purple-100 dark:bg-purple-900/30 text-purple-600 dark:text-purple-400 px-1.5 py-0.5 rounded text-sm">
+                      <code className="bg-purple-100 dark:bg-purple-900/30 text-purple-600 dark:text-purple-400 px-1.5 py-0.5 rounded text-sm break-all">
                         {children}
                       </code>
                     );
@@ -165,17 +165,17 @@ export default async function ArticlePage({
                   return <code className={className}>{children}</code>;
                 },
                 blockquote: ({ children }: any) => (
-                  <blockquote className="border-l-4 border-blue-500 pl-6 py-2 bg-blue-50 dark:bg-blue-900/20 rounded-r-lg my-6">
+                  <blockquote className="border-l-4 border-blue-500 pl-4 sm:pl-6 py-2 bg-blue-50 dark:bg-blue-900/20 rounded-r-lg my-4 sm:my-6">
                     {children}
                   </blockquote>
                 ),
                 ul: ({ children }: any) => (
-                  <ul className="list-disc list-inside space-y-2 mb-4 text-gray-700 dark:text-gray-300">
+                  <ul className="list-disc list-inside space-y-1 sm:space-y-2 mb-3 sm:mb-4 text-gray-700 dark:text-gray-300">
                     {children}
                   </ul>
                 ),
                 ol: ({ children }: any) => (
-                  <ol className="list-decimal list-inside space-y-2 mb-4 text-gray-700 dark:text-gray-300">
+                  <ol className="list-decimal list-inside space-y-1 sm:space-y-2 mb-3 sm:mb-4 text-gray-700 dark:text-gray-300">
                     {children}
                   </ol>
                 ),

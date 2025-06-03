@@ -18,7 +18,7 @@ body.tg-viewport {
   -webkit-overflow-scrolling: touch;
 }
 
-/* Мобильная адаптация */
+/* Улучшения для мобильных устройств в Telegram */
 @media (max-width: 640px) {
   body {
     font-size: 14px;
@@ -29,6 +29,44 @@ body.tg-viewport {
     font-size: 14px;
   }
   
+  /* Уменьшаем отступы на мобильных */
+  .space-y-12 > * + * {
+    margin-top: 2rem;
+  }
+  
+  /* Улучшаем переносы текста для длинных заголовков */
+  h1, h2, h3, h4, h5, h6 {
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    word-break: break-word;
+    hyphens: auto;
+  }
+  
+  /* Специальные стили для заголовков статей в Telegram */
+  .tg-viewport h1 {
+    font-size: 1.25rem !important; /* 20px */
+    line-height: 1.4 !important;
+  }
+  
+  .tg-viewport h2 {
+    font-size: 1.125rem !important; /* 18px */
+    line-height: 1.4 !important;
+  }
+  
+  .tg-viewport h3 {
+    font-size: 1rem !important; /* 16px */
+    line-height: 1.4 !important;
+  }
+  
+  /* Компактные отступы для Telegram */
+  .tg-viewport .prose {
+    --tw-prose-body: 0.875rem;
+    --tw-prose-headings: inherit;
+  }
+}
+
+/* Мобильная адаптация */
+@media (max-width: 640px) {
   /* Уменьшаем отступы на мобильных */
   .space-y-12 > * + * {
     margin-top: 2rem;
