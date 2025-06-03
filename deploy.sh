@@ -4,8 +4,8 @@
 set -e
 
 PROJECT_DIR="/var/www/qaravan"
-REPO_URL="https://github.com/your-username/qaravan.git" # Замените на ваш URL репозитория
-BRANCH="main" # или master
+REPO_URL="https://github.com/orewacoder/qaravan.git"
+BRANCH="main"
 
 echo "🚀 Начинаем Git-деплой QAravan..."
 
