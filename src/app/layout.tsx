@@ -1,7 +1,7 @@
 import '../styles/globals.css';
 import { Inter } from 'next/font/google';
 import ClientThemeProvider from '@/components/ClientThemeProvider';
-import { TelegramProvider, TelegramWebAppInitializer } from '@/components/TelegramWebApp';
+import { TelegramProvider, TelegramWebAppInitializer, TelegramThemeSync } from '@/components/TelegramWebApp';
 
 const inter = Inter({ subsets: ['cyrillic', 'latin'] });
 
@@ -26,6 +26,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body className={inter.className}>
         <TelegramProvider>
           <ClientThemeProvider>
+            <TelegramThemeSync />
             <TelegramWebAppInitializer />
             {children}
           </ClientThemeProvider>

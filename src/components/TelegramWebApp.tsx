@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState, createContext, useContext, ReactNode } from 'react';
+import { useTheme } from 'next-themes';
 
 interface TelegramWebApp {
   initData: string;
@@ -115,15 +116,13 @@ export function TelegramProvider({ children }: TelegramProviderProps) {
         document.documentElement.style.setProperty('--tg-button-color', tg.themeParams.button_color);
         document.documentElement.style.setProperty('--tg-button-text-color', tg.themeParams.button_text_color);
         
-        // Применение темы
-        if (tg.colorScheme === 'dark') {
-          document.documentElement.classList.add('dark');
-        } else {
-          document.documentElement.classList.remove('dark');
-        }
-        
         // Добавляем класс для Telegram среды
         document.body.classList.add('tg-viewport');
+        
+        // Отправляем событие для синхронизации с next-themes
+        window.dispatchEvent(new CustomEvent('telegram-theme-init', { 
+          detail: { colorScheme: tg.colorScheme } 
+        }));
       } else {
         // Если не в Telegram, устанавливаем светлую тему по умолчанию
         document.documentElement.classList.remove('dark');
@@ -149,6 +148,29 @@ export function TelegramProvider({ children }: TelegramProviderProps) {
       {children}
     </TelegramContext.Provider>
   );
+}
+
+// Новый компонент для синхронизации темы
+export function TelegramThemeSync() {
+  const { setTheme } = useTheme();
+  const { isTelegramEnvironment } = useTelegram();
+
+  useEffect(() => {
+    if (!isTelegramEnvironment) return;
+
+    const handleTelegramThemeInit = (event: CustomEvent) => {
+      const { colorScheme } = event.detail;
+      setTheme(colorScheme);
+    };
+
+    window.addEventListener('telegram-theme-init', handleTelegramThemeInit as EventListener);
+
+    return () => {
+      window.removeEventListener('telegram-theme-init', handleTelegramThemeInit as EventListener);
+    };
+  }, [isTelegramEnvironment, setTheme]);
+
+  return null;
 }
 
 export function TelegramWebAppInitializer() {

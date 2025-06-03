@@ -47,11 +47,21 @@ export default async function LangLayout({
             {/* Controls */}
             <div className="flex items-center space-x-2 sm:space-x-4">
               <TelegramUserInfo />
+              
+              {/* Language Switcher - компактная версия для мобильных */}
+              <div className="sm:hidden">
+                <Suspense fallback={<div className="w-16 h-8 bg-gray-200 dark:bg-gray-700 rounded-lg animate-pulse"/>}>
+                  <LanguageSwitcher />
+                </Suspense>
+              </div>
+              
+              {/* Language Switcher - полная версия для десктопа */}
               <div className="hidden sm:block">
                 <Suspense fallback={<div className="w-20 h-8 bg-gray-200 dark:bg-gray-700 rounded-lg animate-pulse"/>}>
                   <LanguageSwitcher />
                 </Suspense>
               </div>
+              
               <ThemeSwitcher />
             </div>
           </div>

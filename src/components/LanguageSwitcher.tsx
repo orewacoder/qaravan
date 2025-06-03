@@ -25,7 +25,7 @@ export default function LanguageSwitcher() {
   }
 
   return (
-    <div className="relative inline-flex bg-gray-100 dark:bg-gray-700 rounded-lg p-1" aria-label="Переключатель языка">
+    <div className="relative inline-flex bg-gray-100 dark:bg-gray-700 rounded-lg p-0.5 sm:p-1" aria-label="Переключатель языка">
       {locales.map((lang) => {
         const isActive = currentLang === lang;
         return (
@@ -34,7 +34,7 @@ export default function LanguageSwitcher() {
             onClick={() => switchLang(lang)}
             disabled={isPending || isActive}
             className={`
-              relative px-3 py-1.5 text-sm font-medium rounded-md transition-all duration-200
+              relative px-2 py-1 sm:px-3 sm:py-1.5 text-xs sm:text-sm font-medium rounded-md transition-all duration-200
               ${isActive 
                 ? 'bg-white dark:bg-gray-600 text-gray-900 dark:text-gray-100 shadow-sm' 
                 : 'text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-gray-100'
@@ -44,7 +44,7 @@ export default function LanguageSwitcher() {
           >
             {isPending && isActive && (
               <div className="absolute inset-0 flex items-center justify-center">
-                <div className="w-4 h-4 border-2 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
+                <div className="w-3 h-3 sm:w-4 sm:h-4 border-2 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
               </div>
             )}
             <span className={isPending && isActive ? 'opacity-0' : ''}>
