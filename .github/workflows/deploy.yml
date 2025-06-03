@@ -1,0 +1,37 @@
+name: 🚀 Deploy QAravan to Production
+
+on:
+  push:
+    branches: [ main, master ]
+  workflow_dispatch: # Позволяет запускать вручную
+
+jobs:
+  deploy:
+    name: 🐪 Deploy Caravan
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: 📥 Checkout code
+      uses: actions/checkout@v4
+      
+    - name: 🚀 Deploy to server
+      uses: appleboy/ssh-action@v1.0.3
+      with:
+        host: ${{ secrets.HOST }}
+        username: ${{ secrets.USERNAME }}
+        key: ${{ secrets.PRIVATE_KEY }}
+        port: ${{ secrets.PORT || 22 }}
+        script: |
+          echo "🚀 Начинаем автоматический деплой..."
+          cd /var/www/qaravan
+          ./deploy.sh
+          echo "✅ Деплой завершен! Караван готов к путешествию! 🐪"
+          
+    - name: 📊 Notify deployment status
+      if: always()
+      run: |
+        if [ "${{ job.status }}" == "success" ]; then
+          echo "✅ Деплой успешно завершен!"
+        else
+          echo "❌ Деплой завершился с ошибкой!"
+        fi 

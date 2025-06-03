@@ -1,0 +1,69 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Telegram Web App стили */
+:root {
+  --tg-bg-color: #ffffff;
+  --tg-text-color: #000000;
+  --tg-hint-color: #999999;
+  --tg-link-color: #2481cc;
+  --tg-button-color: #2481cc;
+  --tg-button-text-color: #ffffff;
+}
+
+/* Убираем стандартные элементы интерфейса в Telegram */
+body.tg-viewport {
+  overflow-x: hidden;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Мобильная адаптация */
+@media (max-width: 640px) {
+  body {
+    font-size: 14px;
+  }
+  
+  /* Улучшаем читаемость на мобильных */
+  .prose {
+    font-size: 14px;
+  }
+  
+  /* Уменьшаем отступы на мобильных */
+  .space-y-12 > * + * {
+    margin-top: 2rem;
+  }
+}
+
+/* Адаптация под Telegram темы */
+.tg-bg {
+  background-color: var(--tg-bg-color);
+}
+
+.tg-text {
+  color: var(--tg-text-color);
+}
+
+.tg-hint {
+  color: var(--tg-hint-color);
+}
+
+.tg-link {
+  color: var(--tg-link-color);
+}
+
+.tg-button {
+  background-color: var(--tg-button-color);
+  color: var(--tg-button-text-color);
+}
+
+/* Скрываем элементы, которые не нужны в Telegram */
+@media (max-width: 768px) {
+  .telegram-hide {
+    display: none !important;
+  }
+}
+
+html {
+  scroll-behavior: smooth;
+} 
