@@ -69,7 +69,7 @@ export default async function CategoryPage({
       </div>
 
       {/* Articles Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 no-horizontal-overflow">
         {categoryArticles.map((article, index) => (
           <Link
             key={`${category}-${article.slug}-${index}`}

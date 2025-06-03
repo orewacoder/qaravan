@@ -1,164 +1,164 @@
 ---
-title: "Как стать автоматизатором и вопросы с собеседований"
+title: "Qanday qilib avtomatlashtiruvchi bo‘lish va interview savollari"
 ---
 
-# Как стать автоматизатором и вопросы с собеседований
+# Qanday qilib avtomatlashtiruvchi bo‘lish va interview savollari
 
-## Можно ли стать автоматизатором без опыта ручного тестирования?
+## Qo‘lda sinovdan o‘tkazish tajribasiz avtomatlashtiruvchi bo‘lish mumkinmi?
 
-Можно, если у вас есть опыт в программировании. В каких-то компаниях это действительно так и работает. Ручные тестировщики пишут тест-кейсы (шаги + ожидаемый результат), автоматизатор их берет и переносит в код. В принципе, такой подход вполне валиден и работает, но я вижу в нем некоторые недостатки.
+Agar dasturlash bo‘yicha tajribangiz bo‘lsa, mumkin. Ba’zi kompaniyalarda haqiqatan ham shunday ishlaydi. Qo‘lda tekshiruvchilar test-keyslarni (qadamlar + kutilayotgan natija) yozadilar, avtomatlashtiruvchi esa ularni olib kodga o‘tkazadi. Umuman olganda, bunday yondashuv to‘g‘ri va samarali, lekin men unda ba’zi kamchiliklarni ko‘raman.
 
-Во-первых, когда сам пишешь автотесты на функционал, который хорошо знаешь, ты можешь по ходу добавлять какие-то проверки, которые мог пропустить во время написания тест-кейсов. Плюс знаешь другие автотесты, которые можно дополнить. Соответственно, тебе легче поддерживать актуальность автотестов.
+Birinchidan, o‘zingiz yaxshi biladigan funksionallik uchun avtotestlar yozayotganingizda, test-keyslarni yozish paytida e’tibordan chetda qolgan ba’zi tekshiruvlarni qo‘shishingiz mumkin. Bundan tashqari, to‘ldirishingiz mumkin bo‘lgan boshqa avtotestlarni ham bilasiz. Shu sababli, avtotestlarning dolzarbligini saqlash sizga osonroq bo‘ladi.
 
-Во-вторых, автоматизация тестирования - это интересно и полезно. Ты начинаешь изучать код, расширяешь свои знания о продукте, понимаешь, как всё работает изнутри. Это полезно и для ручного тестирования в том числе. Начинаешь чуть лучше понимать разработчиков.
+Ikkinchidan, testlarni avtomatlashtirish qiziqarli va foydali. Kodni o‘rganishni boshlaysiz, mahsulot haqidagi bilimlaringizni kengaytirasiz, hamma narsa ichkaridan qanday ishlashini tushunasiz. Bu qo‘lda tekshirish uchun ham foydali. Dasturchilarni biroz yaxshiroq tushuna boshlaysiz.
 
-## Можно ли писать автотесты автоматически? Не хочется учиться программированию.
+## Avtomatik ravishda test yozish mumkinmi? Dasturlashni o‘rganishni istamayman.
 
-Попробовать можно. Мы пробовали. Для таких дел существуют рекордеры. Но те тесты, которые ими создаются - это монструозные и неподдерживаемые куски кода.
+Sinab ko‘rishingiz mumkin. Biz sinab ko‘rdik. Bunday ishlar uchun rekorderlar mavjud. Ammo ular yaratadigan testlar murakkab va qo‘llab-quvvatlanishi qiyin bo‘lgan kod bo‘laklaridir.
 
-Возможно, это будет работать, если, допустим, в приложении есть какая-то кнопка, которая никогда не будет меняться. Не изменится ни путь до нее, ни ее функциональность и положение. Тогда код этого теста никогда не нужно будет менять, и пусть этот тест будет жить. Но увы, на практике так не работает. Тесты должны быть легко поддерживаемыми, понятными, читаемыми. Рекордером такого не добьешься.
+Agar ilovada hech qachon o‘zgarmaydigan tugma bo‘lsa, bu ishlashi mumkin. Unga olib boradigan yo‘l ham, uning funksionalligi va joylashuvi ham o‘zgarmaydi. Shunda bu testning kodini hech qachon o‘zgartirish kerak bo‘lmaydi va bu test ishlayveradi. Lekin, afsuski, amalda bunday bo‘lmaydi. Testlar oson qo‘llab-quvvatlanadigan, tushunarli, o‘qiladigan bo‘lishi kerak. Rekorder bilan bunga erishib bo‘lmaydi.
 
-Можно использовать рекордеры в каких-нибудь сложных местах приложения, чтобы посмотреть, как можно повзаимодействовать с каким-нибудь труднонаходимым элементом. То есть использовать его как помощника, как вспомогательный инструмент, но не как основное средство автоматизации.
+Ilovaning murakkab qismlarida topilishi qiyin bo‘lgan element bilan qanday munosabatda bo‘lish mumkinligini ko‘rish uchun rekorderlardan foydalanishingiz mumkin. Ya’ni, uni avtomatlashtirishning asosiy vositasi sifatida emas, balki yordamchi vosita sifatida ishlatish maqsadga muvofiq.
 
-## За сколько тестировщик превращается в автотестировщика
+## Sinovchi qancha vaqt ichida avtomatlashtiruvchiga aylanadi
 
-Опять же, по нашему опыту, мы нанимаем человека без опыта автоматизации и на испытательный срок (3 месяца) ему ставится задача - написать свой первый автотест на любую из платформ, которая ему понравится больше или покажется проще. И у нас еще никто не провалил испытательный срок.
+Yana o‘z tajribamizga ko‘ra, biz avtomatlashtirish tajribasiga ega bo‘lmagan odamni ishga olamiz va sinov muddati (3 oy) davomida unga o‘zining birinchi avtotestini o‘ziga ko‘proq yoqqan yoki osonroq ko‘ringan platformalarning istalganiga yozish vazifasi beriladi. Bizda hali hech kim sinov muddatini muvaffaqiyatsiz o‘tkazib yubormagan.
 
-Естественно, большую роль играет то, что человек пишет автотесты не совсем с нуля. У нас уже есть и готовые автотесты, которые можно смотреть и писать по аналогии, и люди, которые готовы помогать и отвечать на вопросы.
+Tabiiyki, bunda insonning avtotestlarni butunlay noldan yozmasligi katta rol o‘ynaydi. Bizda allaqachon o‘xshashlik bo‘yicha ko‘rish va yozish mumkin bo‘lgan tayyor avtotestlar ham, yordam berishga va savollarga javob berishga tayyor odamlar ham bor.
 
-По итогу за 3 месяца мы получаем человека, который уже понимает, как писать автотесты минимум для одной из платформ. Следующим шагом будет написать такой же тест для второй платформы. Еще через 3-4 месяца мы получим самостоятельного автоматизатора мобильных приложений под обе платформы, которому еще какое-то время, возможно, нужна будет помощь с какими-то сложными вещами. Но вот свободно писать легкие автотесты под обе платформы он будет уже через полгода.
+Natijada, 3 oy ichida biz kamida bitta platforma uchun avtotestlarni qanday yozishni tushunadigan mutaxassisga ega bo‘lamiz. Keyingi qadam ikkinchi platforma uchun ham xuddi shunday test yozish bo‘ladi. Yana 3-4 oydan so‘ng biz ikkala platforma uchun mustaqil mobil ilova avtomatlashtiruvchisiga ega bo‘lamiz. Unga yana bir muncha vaqt murakkab masalalarda yordam kerak bo‘lishi mumkin. Ammo u yarim yildan so‘ng ikkala platforma uchun ham oson avtotestlarni bemalol yoza oladi.
 
-## Карьерный путь автоматизатора
+## Avtomatlashtiruvchining karyera yo‘li
 
-* [Что учить, чтоб стать автоматизатором тестирования](https://www.youtube.com/watch?v=d5yCDe0\_ddE)
-* [Карьерный путь автоматизатора](https://software-testing.ru/library/around-testing/job/3626-test-automation-career-path)
+* [Test avtomatlashtiruvchisi bo‘lish uchun nimalarni o‘rganish kerak](https://www.youtube.com/watch?v=d5yCDe0\_ddE)
+* [Avtomatlashtiruvchining karyera yo‘li](https://software-testing.ru/library/around-testing/job/3626-test-automation-career-path)
 
-Роадмапы в основном включают и мануал и авто, их можно посмотреть в теме "Что должен знать и уметь Junior? Что спросят на собеседовании?".
+Yo‘l xaritalari asosan qo‘lda va avtomatik testlashtirishni o‘z ichiga oladi, ularni "Junior mutaxassis nimalarni bilishi va bajara olishi kerak? Suhbatda nima so‘rashadi?" mavzusida ko‘rishingiz mumkin.
 
-## Вопросы для подготовки к собеседованию 
+## Suhbatga tayyorlanish uchun savollar
 
-Вопросы можно условно поделить на 3 большие группы:
+Savollarni shartli ravishda 3 ta katta guruhga bo‘lish mumkin:
 
-* джуна наверняка всё-равно будут спрашивать общую теорию тестирования по мануалу, хотя бы по верхам;
-* всё то, что касается непосредственно автоматизации: какая бывает, инструменты в общем и конкретно под вакансию, представление об инфраструктуре CI/CD, лучшие практики автоматизации и т.п.;
-* core языка программирования, указанного в вакансии и всё, что вокруг этого.
+* junior mutaxassislardan, albatta, testlashning umumiy nazariyasini qo‘llanma bo‘yicha, hech bo‘lmaganda umumiy tarzda so‘rashadi;
+* bevosita avtomatlashtirishga taalluqli bo‘lgan barcha narsalar: bo‘sh ish o‘rni uchun umumiy va aniq vositalar, CI/CD infratuzilmasi haqidagi tasavvur, avtomatlashtirishning eng yaxshi amaliyotlari va boshqalar;
+* vakansiyada ko‘rsatilgan dasturlash tilining asoslari va uning atrofidagi barcha ma’lumotlar.
 
-### Вопросы по автоматизации:
+### Avtomatlashtirish savollari:
 
-* Что такое автоматизация и зачем она нужна?
-* Когда нужно начинать автоматизацию на проекте?
-* Какая бывает автоматизация (виды, методы, платформы и т.п.)?
-* Характеристики хорошего автотеста;
-* Паттерны автоматизации;
-* Популярные фреймворки и инструменты автоматизации, запуска тестов и генерации отчетности;
-* Инфраструктура CI/CD, пайплайн, место автотестов в нем;
-* Что следует автоматизировать в первую очередь?
-* Какая тестовая документация нужна для автоматизированного тестирования?
-* Есть новая фича. Расскажи, как будешь тестировать и какие автотесты напишешь.
+* Avtomatlashtirish nima va u nima uchun kerak?
+* Loyihada avtomatlashtirishni qachon boshlash kerak?
+* Avtomatlashtirish qanday bo‘ladi (turlari, usullari, platformalari va h.k.)?
+* Yaxshi avtotestning xususiyatlari;
+* Avtomatlashtirish andozalari;
+* Mashhur freymvorklar va avtomatlashtirish, testlarni ishga tushirish va hisobotlarni yaratish vositalari;
+* CI/CD infratuzilmasi, pipelayn, undagi avtotestlarning o‘rni;
+* Birinchi navbatda nimani avtomatlashtirish kerak?
+* Avtomatlashtirilgan test o‘tkazish uchun qanday test hujjatlari kerak?
+* Yangi funksiya bor. Qanday qilib test o‘tkazishingni va qanday avtotestlar yozishingni aytib ber.
 
-### Вопросы по языкам программирования:
+### Dasturlash tillariga oid savollar:
 
 #### Java:
 
-* дизайн-паттерны;
-* дата-типы;
-* коллекции, Map...;
-* модификаторы доступа. Public, Private, Abstract классы и методы;
-* Что такое Интерфейс?
-* Что такое лямбда функция?
-* дженерики;
-* коллекции;
-* методы класса object;
-* больше [тут](https://github.com/enhorse/java-interview) или в гугле.
+* dizayn-patternlar;
+* ma’lumot turlari;
+* to‘plamlar, Map...;
+* kirish modifikatorlari. Public, Private, Abstract sinflari va usullari;
+* Interfeys nima?
+* Lambda funksiya nima?
+* jeneriklar;
+* kolleksiyalar;
+* Object sinfining metodlari;
+* ko‘proq [bu yerda](https://github.com/enhorse/java-interview) yoki Google’da.
 
 #### Python:
 
-* Какие типы данных существуют в Python?
-* В чем разница между списком (list) и кортежем (tuple)?
-* Что такое словарь (dict) и как с ним работать?
-* Что такое генераторы и итераторы?
-* Как работает GIL (Global Interpreter Lock)?
-* Что такое декораторы и как их использовать?
-* Как работает сборщик мусора в Python?
-* Что такое list comprehension?
-* Как работает наследование в Python?
-* Что такое контекстный менеджер и как его использовать?
-* Как работают области видимости (scopes) в Python?
-* Что такое модули и пакеты?
-* Как использовать виртуальные окружения?
-* Что такое PEP 8?
-* Разница между `__str__` и `__repr__`?
+Python tilida qanday ma’lumotlar turlari mavjud?
+* Ro‘yxat (list) va kortej (tuple) ning farqi nimada?
+What is a dictionary (dict) and how to work with it?
+Generator va iteratorlar nima?
+GIL (Global Interpreter Lock) qanday ishlaydi?
+Dekoratorlar nima va ulardan qanday foydalanish kerak?
+Python chiqindi yig‘uvchi qanday ishlaydi?
+* List comprehension nima?
+*Pythonda vorislik qanday ishlaydi?
+Kontekstli menejer nima va undan qanday foydalanish mumkin?
+• Python dasturlash tilida ko‘rish maydonlari (scopes) qanday ishlaydi?
+• Modul va paketlar nima?
+• Virtual muhitlardan qanday foydalanish mumkin?
+* PEP 8 nima?
+* "__str__" va "__repr__" orasidagi farq?
 
 #### JavaScript:
 
-* Что такое замыкания (closures)?
-* Разница между `var`, `let` и `const`?
-* Что такое hoisting?
-* Как работает прототипное наследование?
-* Что такое промисы (Promises) и как с ними работать?
-* Что такое async/await?
-* Что такое Event Loop?
-* Разница между `==` и `===`?
-* Что такое стрелочные функции и чем они отличаются от обычных?
-* Что такое деструктуризация?
-* Что такое замыкания и как они работают?
-* Что такое DOM и как с ним взаимодействовать?
-* Что такое AJAX?
-* Как работает this в JavaScript?
-* Что такое модули ES6?
+Yopilishlar (closures) nima?
+Var, let va const orasida qanday farq bor?
+* Lifting nima?
+* Prototip irsiylanish qanday amalga oshadi?
+Promisslar (Promises) nima va ular bilan qanday ishlash kerak?
+* Async/await nima?
+* Event Loop nima?
+* ’==’ va ’===’ orasidagi farq?
+• Strelkali funksiyalar nima va ular oddiy funksiyalardan qanday farq qiladi?
+Destrukturizatsiya nima?
+• Ulanishlar nima va ular qanday ishlaydi?
+DOM nima va u bilan qanday munosabatda bo‘lish mumkin?
+AJAX nima?
+JavaScriptda this qanday ishlaydi?
+ES6 modullari nima?
 
-### Вопросы общие:
+### Umumiy savollar:
 
-* Разница между библиотекой и фреймворком?
-* Что означает слово SNAPSHOT в версии библиотеки?
-* Что такое SDK?
+Kutubxona va freymvork o‘rtasidagi farq?
+SNAPSHOT so‘zi kutubxona versiyasida qanday ma’noni anglatadi?
+SDK nima?
 
-### Практические навыки:
+### Amaliy ko‘nikmalar:
 
-* уметь писать код и решать простые задачки (переборы массивов и т.п.);
-* Git;
-* консоль;
-* типовые инструменты для платформы;
-* моки запросов (Swifter/Wiremock);
-* инструменты отчетности (Allure);
-* инструменты CI.
+* kod yozishni va oddiy masalalarni (massivlarni qayta ishlash va h.k.) yechishni bilish;
+Git;
+* konsol;
+* platforma uchun namunaviy asboblar;
+* so‘rovlar mokisi (Swifter/Wiremock);
+* hisobot vositalari (Allure);
+* CI vositalari.
 
-## Пример вопросов от кандидата работодателю:
+## Nomzodning ish beruvchiga savollari namunasi:
 
-[Пример](https://t.me/qa\_interviews/64422):
+[Misol] (https://t.me/qa\_interviews/64422):
 
-* Сколько IOS разработчиков в приложении?
-* Сколько Unit Test'ов и сколько UI Test'ов на данный момент?
-* С какой периодичностью запускаются тесты?
-* Какой релизный цикл? Сколько сейчас времени на регресс?
-* Кто добавляет Accebility Identifier'ы в приложение?
-* Какая минимальная версия IOS поддерживается?
-* Сколько времени тратится на сборку приложения локально?
-* Какая система сборки используется на проекте?
-* Автоматизируете ли разрешение конфликтов в project.pbxproj?
+Ilovada nechta IOS dasturchisi bor?
+* Hozirda nechta Unit Test va nechta UI Test mavjud?
+Testlar qanday davriylikda ishga tushiriladi?
+* Reliz sikli qanday? Hozir orqaga qaytish vaqti qancha?
+• Ilovaga accessibility identifikatorlarini kim qo‘shadi?
+* IOS tizimining minimal versiyasi qaysi?
+* Ilovani qurilmada yig‘ish uchun qancha vaqt ketadi?
+Loyihada qanday yig‘ish tizimi qo‘llaniladi?
+project.pbxprojda nizolarni hal qilishni avtomatlashtirasizmi?
 
-## Источники:
+## Manbalar:
 
-* [ТОП-5 вопросов ручных тестировщиков про автоматизацию](https://habr.com/ru/company/hh/blog/575390/)
-* [ТОП-5 вопросов технического директора про автоматизацию](https://habr.com/ru/company/hh/blog/582968/)
-* [Чек-лист для начинающего автотестера на Java](https://testit.software/blog/post/chek-list-dlya-nachinayushchego-avtotestera-na-java)
-* [39 TOP Automation Testing Interview Questions And Answers](https://www.softwaretestinghelp.com/test-automation-interview-questions/)
-* [50 Most Popularly Asked Selenium Interview Questions And Answers](https://www.softwaretestinghelp.com/selenium-interview-questions-answers/)
-* [Automation Testing Interview Questions And Answers (Updated 2022)](https://www.softwaretestingmaterial.com/automation-testing-interview-questions/)
-* [Interview Prep Questions](https://docs.google.com/document/d/1UQR1Zvwyrgyuo600qEVAWt4d25LWo5B5KLGe-c09aU4/edit#heading=h.tu27eqwwcawn)
-* [50 вопросов по Docker, которые задают на собеседованиях, и ответы на них](https://habr.com/ru/company/southbridge/blog/528206/)
-* [О чем спрашивают на собеседовании QA Junior: Selenium](https://testengineer.ru/sobesedovanie-selenium-o-chem-sprashivajut/)
-* [Как начать карьеру QA Automation Engineer: один простой совет](https://vc.ru/hr/350932-kak-nachat-kareru-qa-automation-engineer-odin-prostoy-sovet)
-* [Нужно ли знать программирование для qa автоматизатора?](https://www.youtube.com/watch?v=y2Xh25f5O9U)
-* [Как стать QA AUTOMATION engineer с нуля самостоятельно](https://www.youtube.com/watch?v=k0LFk9yH98c)
-* [Дмитрий Бормотов - Трансформация из Manual QA в Automation](https://www.youtube.com/watch?v=FkhWIgqtmZ8\&list=PLsVTVVvrKX9td9Zm\_4nF6Ywlz6gC5\_e7K\&index=12)
-* [Как стать автоматизатором тестирования?](https://habr.com/ru/post/253867/)
-* [Какие вопросы ожидать на позицию автоматизатора и причем тут сортировка?](https://habr.com/ru/post/550510/)
-* [Что спрашивают на собеседовании у джуна, или как я искала свою вторую работу в ИТ](https://habr.com/ru/post/442348/)
-* [10 Awesome Tips To Become A Better Automation Tester](https://www.softwaretestinghelp.com/how-to-become-better-automation-tester/)
-* [Какие ошибки совершает начинающий QA Automation Engineer? Как их избежать?](https://www.youtube.com/watch?v=8QQVe5LYgdw)
-* [Три типичных ошибки автоматизатора](https://testengineer.ru/tipichnye-oshibki-avtomatizatora/)
-* [QAGuild#54: Что должен знать тестировщик? Топ 3 навыка для QA Automation engineer](https://www.youtube.com/watch?v=XgMGjRAQZJg)
-* [Как стать Java разработчиком за 1,5 года](https://habr.com/ru/post/439432/)
-* [Как я изучал структуры данных и алгоритмы для собеседования в FAANG](https://habr.com/ru/company/skillfactory/blog/539058/)
-* [Как я готовился к собеседованию в Google](https://habr.com/ru/company/skillfactory/blog/538536/)
+* [Qo‘lda sinovchilarning avtomatlashtirish bo‘yicha TOP-5 savoli] (https://habr.com/ru/company/hh/blog/575390/)
+* [Texnik direktorning avtomatlashtirish bo‘yicha TOP-5 savoli] (https://habr.com/ru/company/hh/blog/582968/)
+* [Java boshlang‘ich avtotesteri uchun chek-list] (https://testit.software/blog/post/chek-list-dlya-nachinayushchego-avtotestera-na-java)
+* [39 TOP Automation Testing Interview Questions And Answers] (https://www.softwaretestinghelp.com/test-automation-interview-questions/)
+* [50 Most Popular Asked Selenium Interview Questions And Answers] (https://www.softwaretestinghelp.com/selenium-interview-questions-answers/)
+[Automation Testing Interview Questions And Answers (Updated 2022) ] (https://www.softwaretestingmaterial.com/automation-testing-interview-questions/)
+[Intervyuga tayyorgarlik savollari] (https://docs.google.com/document/d/1UQR1Zvwyrgyuo600qEVAWt4d25LWo5B5KLGe-c09aU4/edit#heading=h.tu27eqwwcawn)
+* [Intervyuda beriladigan Docker bo‘yicha 50 ta savol va ularga javoblar] (https://habr.com/ru/company/southbridge/blog/528206/)
+* [QA Junior: Selenium suhbatida nimalar so‘raladi] (https://testengineer.ru/sobesedovanie-selenium-o-chem-sprashivajut/)
+* [QA Automation Engineer karyerasini qanday boshlash mumkin: bitta oddiy maslahat] (https://vc.ru/hr/350932-kak-nachat-kareru-qa-automation-engineer-odin-prostoy-sovet)
+* [qa avtomatlashtirish uchun dasturlashni bilish kerakmi?] (https://www.youtube.com/watch?v=y2Xh25f5O9U)
+* [Noldan mustaqil ravishda QA AUTOMATION muhandisi bo‘lish] (https://www.youtube.com/watch?v=k0LFk9yH98c)
+* [Dmitriy Bormotov - Manual QA’dan Automation’ga o‘tish] (https://www.youtube.com/watch?v=FkhWIgqtmZ8\&list=PLsVTVVvrKX9td9Zm\_4nF6Ywlz6gC5\_e7K\&index=12)
+* [Qanday qilib test avtomatlashtiruvchisi bo‘lish mumkin?] (https://habr.com/ru/post/253867/)
+* [Avtomatlashtirish pozitsiyasiga qanday savollar kutilmoqda va bu yerda saralash nima uchun kerak?] (https://habr.com/ru/post/550510/)
+* [Jundan suhbatda nima so‘raladi yoki men IT sohasidagi ikkinchi ishimni qanday qidirdim] (https://habr.com/ru/post/442348/)
+* Yaxshiroq avtomatlashtirish sinovchisi bo‘lish uchun 10 ta ajoyib maslahat (https://www.softwaretestinghelp.com/how-to-become-better-automation-tester/)
+* [Boshlovchi QA Automation Engineer qanday xatolarga yo‘l qo‘yadi? Ulardan qanday qochish mumkin? (https://www.youtube.com/watch?v=8QQVe5LYgdw)
+[Avtomatlashtirishning uchta odatiy xatosi] (https://testengineer.ru/tipichnye-oshibki-avtomatizatora/)
+* [QAGuild#54: Test o‘tkazuvchi nimani bilishi kerak? QA Automation engineer uchun eng yaxshi 3 ta ko‘nikma] (https://www.youtube.com/watch?v=XgMGjRAQZJg)
+* [1,5 yil ichida Java dasturchisi bo‘lish] (https://habr.com/ru/post/439432/)
+* [FAANGda ma’lumotlar tuzilmalari va suhbat algoritmlarini qanday o‘rgandim] (https://habr.com/ru/company/skillfactory/blog/539058/)
+* [Google suhbatga qanday tayyorlandim] (https://habr.com/ru/company/skillfactory/blog/538536/)

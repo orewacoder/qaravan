@@ -7,7 +7,7 @@ export default function CategoryList({ lang }: { lang: Locale }) {
   const categories = getCategories(lang);
   
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 no-horizontal-overflow">
       {categories.map((category) => {
         const icon = getCategoryIcon(category);
         const name = getCategoryName(category, lang);
