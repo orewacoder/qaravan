@@ -1,5 +1,5 @@
 import CategoryList from '@/components/CategoryList';
-import PortalSearchBar from '@/components/PortalSearchBar';
+import AdaptiveSearchBar from '@/components/AdaptiveSearchBar';
 import { getAllArticles } from '@/lib/content';
 import { Locale } from '@/types';
 import { isLocale } from '@/lib/i18n';
@@ -68,7 +68,7 @@ export default async function LangHome({
           <h2 className="text-xl sm:text-2xl font-semibold text-center mb-4 sm:mb-6 text-gray-800 dark:text-gray-200">
             {lang === 'uz' ? 'Qidiruv' : 'Поиск'}
           </h2>
-          <PortalSearchBar lang={lang} />
+          <AdaptiveSearchBar lang={lang} />
         </div>
       </section>
 

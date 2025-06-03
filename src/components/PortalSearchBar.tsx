@@ -14,15 +14,23 @@ export default function PortalSearchBar({ lang }: { lang: Locale }) {
   const [showResults, setShowResults] = useState(false);
   const [portalContainer, setPortalContainer] = useState<HTMLElement | null>(null);
   const searchRef = useRef<HTMLDivElement>(null);
-  const [searchPosition, setSearchPosition] = useState({ top: 0, left: 0, width: 0 });
+  const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
+    // Определяем мобильное устройство
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth <= 768);
+    };
+    
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+
     // Создаем или находим контейнер для portal
     let container = document.getElementById('search-portal');
     if (!container) {
       container = document.createElement('div');
       container.id = 'search-portal';
-      container.style.position = 'absolute';
+      container.style.position = 'fixed';
       container.style.top = '0';
       container.style.left = '0';
       container.style.zIndex = '99999';
@@ -32,6 +40,7 @@ export default function PortalSearchBar({ lang }: { lang: Locale }) {
     setPortalContainer(container);
 
     return () => {
+      window.removeEventListener('resize', checkMobile);
       // Очищаем при размонтировании
       const existingContainer = document.getElementById('search-portal');
       if (existingContainer) {
@@ -70,19 +79,7 @@ export default function PortalSearchBar({ lang }: { lang: Locale }) {
 
     setResults(filtered);
     setShowResults(true);
-    updateSearchPosition();
   }, [query, articles, lang]);
-
-  const updateSearchPosition = () => {
-    if (searchRef.current) {
-      const rect = searchRef.current.getBoundingClientRect();
-      setSearchPosition({
-        top: rect.bottom + window.scrollY + 8,
-        left: rect.left + window.scrollX,
-        width: rect.width
-      });
-    }
-  };
 
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
@@ -91,41 +88,47 @@ export default function PortalSearchBar({ lang }: { lang: Locale }) {
       }
     }
 
-    function handleScroll() {
-      if (showResults) {
-        updateSearchPosition();
-      }
-    }
-
-    function handleResize() {
-      if (showResults) {
-        updateSearchPosition();
-      }
-    }
-
     document.addEventListener('mousedown', handleClickOutside);
-    window.addEventListener('scroll', handleScroll);
-    window.addEventListener('resize', handleResize);
-
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-      window.removeEventListener('scroll', handleScroll);
-      window.removeEventListener('resize', handleResize);
-    };
+    return () => document.removeEventListener('mousedown', handleClickOutside);
   }, [showResults]);
+
+  const getSearchResultsStyle = () => {
+    if (!searchRef.current || !isMobile) {
+      // Для десктопа используем обычное позиционирование
+      const rect = searchRef.current?.getBoundingClientRect();
+      return {
+        position: 'absolute' as const,
+        top: rect ? `${rect.bottom + window.scrollY + 8}px` : 'auto',
+        left: rect ? `${rect.left + window.scrollX}px` : 'auto',
+        width: rect ? `${rect.width}px` : 'auto',
+        zIndex: 99999,
+        pointerEvents: 'auto' as const,
+        boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.5)'
+      };
+    }
+
+    // Для мобильных устройств используем фиксированное позиционирование
+    const rect = searchRef.current.getBoundingClientRect();
+    const padding = 16; // Отступы от краев экрана
+    
+    return {
+      position: 'fixed' as const,
+      top: `${rect.bottom + 8}px`,
+      left: `${padding}px`,
+      right: `${padding}px`,
+      width: 'auto',
+      maxWidth: `${window.innerWidth - (padding * 2)}px`,
+      zIndex: 99999,
+      pointerEvents: 'auto' as const,
+      boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.5)',
+      maxHeight: `${window.innerHeight - rect.bottom - 60}px` // Ограничиваем высоту
+    };
+  };
 
   const searchResultsPortal = portalContainer && showResults ? createPortal(
     <div 
-      className="bg-white/98 dark:bg-gray-800/98 backdrop-blur-sm border border-gray-200 dark:border-gray-700 rounded-xl shadow-2xl max-h-96 overflow-y-auto"
-      style={{
-        position: 'absolute',
-        top: `${searchPosition.top}px`,
-        left: `${searchPosition.left}px`,
-        width: `${searchPosition.width}px`,
-        zIndex: 99999,
-        pointerEvents: 'auto',
-        boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.5)'
-      }}
+      className="bg-white/98 dark:bg-gray-800/98 backdrop-blur-sm border border-gray-200 dark:border-gray-700 rounded-xl shadow-2xl overflow-y-auto"
+      style={getSearchResultsStyle()}
     >
       {results.length > 0 ? (
         <div className="py-2">
@@ -193,7 +196,6 @@ export default function PortalSearchBar({ lang }: { lang: Locale }) {
             onFocus={() => {
               if (query.length >= 2) {
                 setShowResults(true);
-                updateSearchPosition();
               }
             }}
             placeholder={lang === 'ru' ? 'Поиск статей...' : 'Maqolalarni qidirish...'}

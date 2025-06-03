@@ -221,4 +221,49 @@ body.tg-viewport {
   .telegram-hide {
     display: none !important;
   }
+}
+
+/* Специальные стили для поисковых результатов в мобильных */
+@media (max-width: 768px) {
+  /* Обеспечиваем корректное отображение поисковых результатов на мобильных */
+  #search-portal {
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    bottom: 0 !important;
+    z-index: 99999 !important;
+    pointer-events: none !important;
+  }
+  
+  #search-portal > div {
+    pointer-events: auto !important;
+  }
+
+  /* Специальные стили для Telegram WebApp */
+  .tg-viewport #search-portal {
+    position: fixed !important;
+    z-index: 999999 !important;
+  }
+  
+  .tg-viewport #search-portal > div {
+    max-height: calc(100vh - 200px) !important;
+    overflow-y: auto !important;
+    -webkit-overflow-scrolling: touch;
+  }
+  
+  /* Улучшаем видимость на маленьких экранах */
+  .search-container {
+    position: relative !important;
+    z-index: 10 !important;
+  }
+}
+
+/* Дополнительные стили для очень маленьких экранов */
+@media (max-width: 480px) {
+  #search-portal > div {
+    margin: 8px !important;
+    max-width: calc(100vw - 16px) !important;
+    border-radius: 8px !important;
+  }
 } 
