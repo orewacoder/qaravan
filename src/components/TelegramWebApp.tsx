@@ -124,8 +124,7 @@ export function TelegramProvider({ children }: TelegramProviderProps) {
           detail: { colorScheme: tg.colorScheme } 
         }));
       } else {
-        // Если не в Telegram, устанавливаем светлую тему по умолчанию
-        document.documentElement.classList.remove('dark');
+        setIsTelegramEnvironment(false);
       }
       
       setIsLoading(false);

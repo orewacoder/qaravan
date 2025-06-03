@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QAravan - Диагностика</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .test-section { margin: 20px 0; padding: 15px; border: 1px solid #ccc; border-radius: 5px; }
+        .success { color: green; }
+        .error { color: red; }
+        #search-input { width: 300px; padding: 10px; margin: 10px 0; }
+        #results { margin-top: 10px; }
+        .result-item { padding: 10px; margin: 5px 0; background: #f5f5f5; border-radius: 5px; }
+    </style>
+</head>
+<body>
+    <h1>QAravan - Диагностика</h1>
+    
+    <div class="test-section">
+        <h2>Тест API</h2>
+        <button onclick="testAPI()">Тестировать API /api/articles/ru</button>
+        <div id="api-result"></div>
+    </div>
+    
+    <div class="test-section">
+        <h2>Тест поиска</h2>
+        <input type="text" id="search-input" placeholder="Введите текст для поиска..." onkeyup="searchArticles()">
+        <div id="search-status"></div>
+        <div id="results"></div>
+    </div>
+    
+    <div class="test-section">
+        <h2>Тест темы</h2>
+        <button onclick="toggleTheme()">Переключить тему</button>
+        <div id="theme-status"></div>
+    </div>
+
+    <script>
+        let articles = [];
+        
+        // Тест API
+        async function testAPI() {
+            const resultDiv = document.getElementById('api-result');
+            try {
+                const response = await fetch('/api/articles/ru');
+                if (response.ok) {
+                    const data = await response.json();
+                    articles = data;
+                    resultDiv.innerHTML = `<span class="success">✅ API работает! Загружено ${data.length} статей</span>`;
+                    console.log('Articles loaded:', data);
+                } else {
+                    resultDiv.innerHTML = `<span class="error">❌ Ошибка API: ${response.status}</span>`;
+                }
+            } catch (error) {
+                resultDiv.innerHTML = `<span class="error">❌ Ошибка: ${error.message}</span>`;
+            }
+        }
+        
+        // Тест поиска
+        function searchArticles() {
+            const query = document.getElementById('search-input').value;
+            const statusDiv = document.getElementById('search-status');
+            const resultsDiv = document.getElementById('results');
+            
+            if (!articles.length) {
+                statusDiv.innerHTML = '<span class="error">Сначала загрузите статьи через тест API</span>';
+                return;
+            }
+            
+            if (query.length < 2) {
+                statusDiv.innerHTML = 'Введите минимум 2 символа';
+                resultsDiv.innerHTML = '';
+                return;
+            }
+            
+            const filtered = articles.filter(article => {
+                return (
+                    article.title.toLowerCase().includes(query.toLowerCase()) ||
+                    article.tags.some(tag => tag.toLowerCase().includes(query.toLowerCase())) ||
+                    article.category.toLowerCase().includes(query.toLowerCase())
+                );
+            }).slice(0, 5);
+            
+            statusDiv.innerHTML = `Найдено: ${filtered.length} результатов`;
+            
+            resultsDiv.innerHTML = filtered.map(article => `
+                <div class="result-item">
+                    <strong>${article.title}</strong><br>
+                    <small>Категория: ${article.category} | Теги: ${article.tags.join(', ')}</small>
+                </div>
+            `).join('');
+        }
+        
+        // Тест темы
+        function toggleTheme() {
+            const statusDiv = document.getElementById('theme-status');
+            const isDark = document.documentElement.classList.contains('dark');
+            
+            if (isDark) {
+                document.documentElement.classList.remove('dark');
+                document.body.style.backgroundColor = 'white';
+                document.body.style.color = 'black';
+                statusDiv.innerHTML = '☀️ Светлая тема активна';
+            } else {
+                document.documentElement.classList.add('dark');
+                document.body.style.backgroundColor = '#1f2937';
+                document.body.style.color = 'white';
+                statusDiv.innerHTML = '🌙 Темная тема активна';
+            }
+        }
+        
+        // Автозагрузка API при открытии страницы
+        window.onload = function() {
+            testAPI();
+        };
+    </script>
+</body>
+</html> 

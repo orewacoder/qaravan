@@ -1,5 +1,5 @@
 import CategoryList from '@/components/CategoryList';
-import SimpleSearchBar from '@/components/SimpleSearchBar';
+import PortalSearchBar from '@/components/PortalSearchBar';
 import { getAllArticles } from '@/lib/content';
 import { Locale } from '@/types';
 import { isLocale } from '@/lib/i18n';
@@ -22,7 +22,7 @@ export default async function LangHome({
   return (
     <div className="space-y-12">
       {/* Hero Section */}
-      <section className="text-center py-8 sm:py-12 lg:py-16">
+      <section className="text-center py-8 sm:py-12 lg:py-16 hero-section">
         <div className="max-w-4xl mx-auto">
           <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold bg-gradient-to-r from-blue-600 via-purple-600 to-indigo-600 bg-clip-text text-transparent mb-4 sm:mb-6">
             {lang === 'uz' ? 'QAravan' : 'QAravan'}
@@ -63,17 +63,17 @@ export default async function LangHome({
       </section>
 
       {/* Search Section */}
-      <section className="max-w-2xl mx-auto relative z-[6000] px-4">
+      <section className="max-w-2xl mx-auto px-4 search-container">
         <div className="bg-white/70 dark:bg-gray-800/70 backdrop-blur-sm rounded-3xl p-4 sm:p-6 lg:p-8 shadow-xl border border-gray-200/50 dark:border-gray-700/50">
           <h2 className="text-xl sm:text-2xl font-semibold text-center mb-4 sm:mb-6 text-gray-800 dark:text-gray-200">
             {lang === 'uz' ? 'Qidiruv' : 'Поиск'}
           </h2>
-          <SimpleSearchBar lang={lang} />
+          <PortalSearchBar lang={lang} />
         </div>
       </section>
 
       {/* Categories Section */}
-      <section>
+      <section className="categories-grid">
         <div className="text-center mb-12">
           <h2 className="text-3xl font-bold text-gray-800 dark:text-gray-200 mb-4">
             {lang === 'uz' ? 'Kategoriyalar' : 'Категории'}

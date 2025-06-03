@@ -41,7 +41,6 @@ export default function SimpleSearchBar({ lang }: { lang: Locale }) {
       );
     }).slice(0, 8);
 
-    console.log('Search debug:', { query, articlesCount: articles.length, filteredCount: filtered.length, showResults: true });
     setResults(filtered);
     setShowResults(true);
   }, [query, articles, lang]);
@@ -83,37 +82,12 @@ export default function SimpleSearchBar({ lang }: { lang: Locale }) {
         )}
       </div>
 
-      {/* Search Results - Принудительное отображение */}
+      {/* Search Results */}
       {showResults && (
-        <div 
-          style={{
-            position: 'fixed',
-            top: '200px',
-            left: '50px',
-            right: '50px',
-            zIndex: 999999,
-            backgroundColor: '#ff0000',
-            border: '5px solid #00ff00',
-            borderRadius: '12px',
-            boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.9)',
-            maxHeight: '400px',
-            overflowY: 'auto',
-            marginTop: '8px',
-            display: 'block',
-            visibility: 'visible',
-            opacity: 1,
-            width: 'auto',
-            height: 'auto',
-            minHeight: '100px',
-            minWidth: '300px',
-            padding: '20px'
-          }}
-        >
-          {/* Отладочная информация */}
-          <div style={{ padding: '8px', backgroundColor: 'yellow', color: 'black' }}>
-            🔍 ПОИСК РАБОТАЕТ! Query: &quot;{query}&quot; | Results: {results.length} | Articles: {articles.length}
-          </div>
-          
+        <div className="absolute top-full left-0 right-0 z-[9999] mt-2 bg-white/95 dark:bg-gray-800/95 backdrop-blur-sm border border-gray-200 dark:border-gray-700 rounded-xl shadow-2xl max-h-96 overflow-y-auto"
+             style={{ 
+               boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.5)' 
+             }}>
           {results.length > 0 ? (
             <div className="py-2">
               {results.map((article, index) => (
@@ -147,7 +121,7 @@ export default function SimpleSearchBar({ lang }: { lang: Locale }) {
                 </Link>
               ))}
             </div>
-          ) : query.length >= 2 ? (
+          ) : (
             <div className="px-4 py-8 text-center text-gray-500 dark:text-gray-400">
               <div className="text-4xl mb-2">🔍</div>
               <div className="font-medium">
@@ -157,7 +131,7 @@ export default function SimpleSearchBar({ lang }: { lang: Locale }) {
                 {lang === 'ru' ? 'Попробуйте изменить запрос' : 'Qidiruv so\'zini o\'zgartirib ko\'ring'}
               </div>
             </div>
-          ) : null}
+          )}
         </div>
       )}
     </div>
