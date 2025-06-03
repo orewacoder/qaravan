@@ -9,13 +9,38 @@
         .test-section { margin: 20px 0; padding: 15px; border: 1px solid #ccc; border-radius: 5px; }
         .success { color: green; }
         .error { color: red; }
+        .info { color: blue; }
+        .fixed { color: green; font-weight: bold; }
+        .new { color: purple; font-weight: bold; }
         #search-input { width: 300px; padding: 10px; margin: 10px 0; }
         #results { margin-top: 10px; }
         .result-item { padding: 10px; margin: 5px 0; background: #f5f5f5; border-radius: 5px; }
+        .device-info { background: #f0f8ff; padding: 10px; border-radius: 5px; margin: 10px 0; }
     </style>
 </head>
 <body>
     <h1>QAravan - Диагностика</h1>
+    
+    <div class="test-section">
+        <h2>🎉 Статус исправлений</h2>
+        <div class="fixed">✅ ИСПРАВЛЕНО: Результаты поиска больше не проваливаются под сетку категорий</div>
+        <div class="fixed">✅ ИСПРАВЛЕНО: Переключатель темы теперь работает корректно</div>
+        <div class="fixed">✅ ИСПРАВЛЕНО: Переключатель языка видим и функционирует</div>
+        <div class="new">🆕 НОВОЕ: Полная адаптивность поиска для мобильных устройств</div>
+        <div class="new">🆕 НОВОЕ: Специальная оптимизация для Telegram WebApp</div>
+        <div class="new">🆕 НОВОЕ: Умное определение устройства и выбор подходящего компонента</div>
+        <div class="info">ℹ️ Использует AdaptiveSearchBar с тремя компонентами:</div>
+        <div class="info">&nbsp;&nbsp;&nbsp;• PortalSearchBar для десктопа</div>
+        <div class="info">&nbsp;&nbsp;&nbsp;• MobileSearchBar для мобильных</div>
+        <div class="info">&nbsp;&nbsp;&nbsp;• Fallback компонент для начальной загрузки</div>
+    </div>
+
+    <div class="test-section">
+        <h2>📱 Информация об устройстве</h2>
+        <div id="device-info" class="device-info">
+            <div>Загрузка информации об устройстве...</div>
+        </div>
+    </div>
     
     <div class="test-section">
         <h2>Тест API</h2>
@@ -38,6 +63,25 @@
 
     <script>
         let articles = [];
+        
+        // Отображаем информацию об устройстве
+        function showDeviceInfo() {
+            const info = document.getElementById('device-info');
+            const isMobile = window.innerWidth <= 768;
+            const isTelegram = navigator.userAgent.toLowerCase().includes('telegram') || 
+                             window.Telegram?.WebApp !== undefined ||
+                             window.location.hostname.includes('telegram');
+            
+            info.innerHTML = `
+                <strong>Информация об устройстве:</strong><br>
+                📱 Ширина экрана: ${window.innerWidth}px x ${window.innerHeight}px<br>
+                📱 Мобильное устройство: ${isMobile ? 'Да' : 'Нет'}<br>
+                📱 Telegram WebApp: ${isTelegram ? 'Да' : 'Нет'}<br>
+                📱 User Agent: ${navigator.userAgent}<br>
+                <strong>Используемый компонент поиска:</strong><br>
+                ${isMobile || isTelegram ? '🔹 MobileSearchBar (оптимизированный для мобильных)' : '🔹 PortalSearchBar (для десктопа)'}
+            `;
+        }
         
         // Тест API
         async function testAPI() {
@@ -82,7 +126,7 @@
                 );
             }).slice(0, 5);
             
-            statusDiv.innerHTML = `Найдено: ${filtered.length} результатов`;
+            statusDiv.innerHTML = `<span class="success">Найдено: ${filtered.length} результатов</span>`;
             
             resultsDiv.innerHTML = filtered.map(article => `
                 <div class="result-item">
@@ -101,19 +145,23 @@
                 document.documentElement.classList.remove('dark');
                 document.body.style.backgroundColor = 'white';
                 document.body.style.color = 'black';
-                statusDiv.innerHTML = '☀️ Светлая тема активна';
+                statusDiv.innerHTML = '<span class="success">☀️ Светлая тема активна</span>';
             } else {
                 document.documentElement.classList.add('dark');
                 document.body.style.backgroundColor = '#1f2937';
                 document.body.style.color = 'white';
-                statusDiv.innerHTML = '🌙 Темная тема активна';
+                statusDiv.innerHTML = '<span class="success">🌙 Темная тема активна</span>';
             }
         }
         
-        // Автозагрузка API при открытии страницы
+        // Автозагрузка при открытии страницы
         window.onload = function() {
+            showDeviceInfo();
             testAPI();
         };
+        
+        // Обновляем информацию при изменении размера экрана
+        window.addEventListener('resize', showDeviceInfo);
     </script>
 </body>
 </html> 
