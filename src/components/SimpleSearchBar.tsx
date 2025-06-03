@@ -41,6 +41,7 @@ export default function SimpleSearchBar({ lang }: { lang: Locale }) {
       );
     }).slice(0, 8);
 
+    console.log('Search debug:', { query, articlesCount: articles.length, filteredCount: filtered.length, showResults: true });
     setResults(filtered);
     setShowResults(true);
   }, [query, articles, lang]);
@@ -57,7 +58,7 @@ export default function SimpleSearchBar({ lang }: { lang: Locale }) {
   }, []);
 
   return (
-    <div ref={searchRef} className="relative w-full z-[5000] search-results-container">
+    <div ref={searchRef} className="relative w-full">
       {/* Search Input */}
       <div className="relative">
         <div className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 dark:text-gray-500 z-10">
@@ -82,9 +83,32 @@ export default function SimpleSearchBar({ lang }: { lang: Locale }) {
         )}
       </div>
 
-      {/* Search Results */}
+      {/* Search Results - Принудительное отображение */}
       {showResults && (
-        <div className="search-results-dropdown absolute top-full left-0 right-0 mt-2 bg-white/95 dark:bg-gray-800/95 backdrop-blur-sm border border-gray-200 dark:border-gray-700 rounded-xl shadow-2xl z-[5000] max-h-96 overflow-y-auto">
+        <div 
+          style={{
+            position: 'absolute',
+            top: '100%',
+            left: '0',
+            right: '0',
+            zIndex: 999999,
+            backgroundColor: 'white',
+            border: '2px solid red',
+            borderRadius: '12px',
+            boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.25)',
+            maxHeight: '384px',
+            overflowY: 'auto',
+            marginTop: '8px',
+            display: 'block',
+            visibility: 'visible',
+            opacity: '1'
+          }}
+        >
+          {/* Отладочная информация */}
+          <div style={{ padding: '8px', backgroundColor: 'yellow', color: 'black' }}>
+            🔍 ПОИСК РАБОТАЕТ! Query: &quot;{query}&quot; | Results: {results.length} | Articles: {articles.length}
+          </div>
+          
           {results.length > 0 ? (
             <div className="py-2">
               {results.map((article, index) => (
