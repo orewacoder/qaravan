@@ -1,6 +1,6 @@
--
+---
 title: "Nimani avtomatlashtirish kerak?"
--
+---
 
 # Nimani avtomatlashtirish kerak?
 
