@@ -24,6 +24,34 @@ body {
   max-width: 100%;
 }
 
+/* Специальные стили для поисковых результатов */
+.search-results-container {
+  position: relative !important;
+  z-index: 5000 !important;
+}
+
+.search-results-dropdown {
+  position: absolute !important;
+  top: 100% !important;
+  left: 0 !important;
+  right: 0 !important;
+  z-index: 5000 !important;
+  background: rgba(255, 255, 255, 0.95) !important;
+  backdrop-filter: blur(8px) !important;
+  border: 1px solid rgba(229, 231, 235, 0.8) !important;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25) !important;
+  max-height: 24rem !important;
+  overflow-y: auto !important;
+  overflow-x: hidden !important;
+}
+
+@media (prefers-color-scheme: dark) {
+  .search-results-dropdown {
+    background: rgba(31, 41, 55, 0.95) !important;
+    border: 1px solid rgba(75, 85, 99, 0.8) !important;
+  }
+}
+
 /* Telegram Web App стили */
 :root {
   --tg-bg-color: #ffffff;
@@ -97,6 +125,14 @@ body.tg-viewport {
   /* Специально для grid элементов */
   .tg-viewport .grid {
     overflow-x: visible !important;
+  }
+  
+  /* Исключения для поисковых результатов */
+  .tg-viewport .search-results-container,
+  .tg-viewport .search-results-dropdown {
+    overflow-x: visible !important;
+    overflow-y: auto !important;
+    max-width: none !important;
   }
 }
 

@@ -43,7 +43,7 @@ export default function SimpleSearchBar({ lang }: { lang: Locale }) {
 
     setResults(filtered);
     setShowResults(true);
-  }, [query, articles]);
+  }, [query, articles, lang]);
 
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
@@ -57,7 +57,7 @@ export default function SimpleSearchBar({ lang }: { lang: Locale }) {
   }, []);
 
   return (
-    <div ref={searchRef} className="relative w-full z-[1000]">
+    <div ref={searchRef} className="relative w-full z-[5000] search-results-container">
       {/* Search Input */}
       <div className="relative">
         <div className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 dark:text-gray-500 z-10">
@@ -84,7 +84,7 @@ export default function SimpleSearchBar({ lang }: { lang: Locale }) {
 
       {/* Search Results */}
       {showResults && (
-        <div className="absolute top-full left-0 right-0 mt-2 bg-white/95 dark:bg-gray-800/95 backdrop-blur-sm border border-gray-200 dark:border-gray-700 rounded-xl shadow-2xl z-[1000] max-h-96 overflow-y-auto">
+        <div className="search-results-dropdown absolute top-full left-0 right-0 mt-2 bg-white/95 dark:bg-gray-800/95 backdrop-blur-sm border border-gray-200 dark:border-gray-700 rounded-xl shadow-2xl z-[5000] max-h-96 overflow-y-auto">
           {results.length > 0 ? (
             <div className="py-2">
               {results.map((article, index) => (

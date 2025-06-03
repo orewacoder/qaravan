@@ -63,7 +63,7 @@ export default async function LangHome({
       </section>
 
       {/* Search Section */}
-      <section className="max-w-2xl mx-auto relative z-40 px-4">
+      <section className="max-w-2xl mx-auto relative z-[6000] px-4">
         <div className="bg-white/70 dark:bg-gray-800/70 backdrop-blur-sm rounded-3xl p-4 sm:p-6 lg:p-8 shadow-xl border border-gray-200/50 dark:border-gray-700/50">
           <h2 className="text-xl sm:text-2xl font-semibold text-center mb-4 sm:mb-6 text-gray-800 dark:text-gray-200">
             {lang === 'uz' ? 'Qidiruv' : 'Поиск'}
