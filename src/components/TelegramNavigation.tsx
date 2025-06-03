@@ -38,24 +38,8 @@ export function TelegramNavigation() {
 
     // Настройка главной кнопки в зависимости от страницы
     if (pathname.includes('/ru/') || pathname.includes('/uz/')) {
-      if (pathname.split('/').length === 3) {
-        // Страница категории
-        webApp.MainButton.setText('🔍 Поиск статей');
-        webApp.MainButton.show();
-        
-        const handleSearchClick = () => {
-          webApp.HapticFeedback.impactOccurred('light');
-          // Прокрутка к поиску или фокус на поле поиска
-          const searchInput = document.querySelector('input[type="text"]') as HTMLInputElement;
-          if (searchInput) {
-            searchInput.focus();
-            searchInput.scrollIntoView({ behavior: 'smooth', block: 'center' });
-          }
-        };
-        
-        webApp.MainButton.onClick(handleSearchClick);
-      } else if (pathname.split('/').length >= 4) {
-        // Страница статьи
+      if (pathname.split('/').length >= 4) {
+        // Страница статьи - показываем кнопку "Поделиться"
         webApp.MainButton.setText('📤 Поделиться');
         webApp.MainButton.show();
         
@@ -86,9 +70,12 @@ export function TelegramNavigation() {
         };
         
         webApp.MainButton.onClick(handleShareClick);
+      } else {
+        // Страница категории или главная - скрываем MainButton
+        webApp.MainButton.hide();
       }
     } else {
-      // Главная страница
+      // Главная страница - скрываем MainButton
       webApp.MainButton.hide();
     }
 
