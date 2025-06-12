@@ -19,7 +19,7 @@ function walkDir(dir: string, fileList: string[] = []): string[] {
     if (file.startsWith('.')) {
       return;
     }
-    
+
     const filePath = path.join(dir, file);
     if (fs.statSync(filePath).isDirectory()) {
       walkDir(filePath, fileList);
@@ -37,7 +37,7 @@ export const getAllArticles = cache(async (lang: Locale): Promise<ArticleMeta[]>
       console.warn(`Content directory not found for language: ${lang}`);
       return [];
     }
-    
+
     const files = walkDir(contentPath);
     return files.map((file: string) => {
       const raw = fs.readFileSync(file, 'utf-8');
@@ -48,7 +48,7 @@ export const getAllArticles = cache(async (lang: Locale): Promise<ArticleMeta[]>
       const [category] = pathParts;
       // Для файлов в подпапках сохраняем полный путь без расширения
       const fullPath = relPath.replace(/\.md$/, '');
-      
+
       return {
         title: data.title || slug,
         slug,
@@ -70,30 +70,30 @@ export const getAllArticles = cache(async (lang: Locale): Promise<ArticleMeta[]>
 export function getArticle(lang: Locale, category: string, slug: string): Article | null {
   // Сначала пробуем найти файл в корне категории
   let filePath = path.join(CONTENT_ROOT[lang], category, `${slug}.md`);
-  
+
   // Если файл не найден, ищем во всех подпапках
   if (!fs.existsSync(filePath)) {
     const contentPath = CONTENT_ROOT[lang];
     const allFiles = walkDir(contentPath);
-    const targetFile = allFiles.find(file => {
+    const targetFile = allFiles.find((file) => {
       const relPath = path.relative(contentPath, file);
       const fileSlug = path.basename(file, '.md');
       const fileCategory = relPath.split(path.sep)[0];
       return fileSlug === slug && fileCategory === category;
     });
-    
+
     if (targetFile) {
       filePath = targetFile;
     } else {
       return null;
     }
   }
-  
+
   const raw = fs.readFileSync(filePath, 'utf-8');
   const { data, content } = matter(raw);
   const relPath = path.relative(CONTENT_ROOT[lang], filePath);
   const fullPath = relPath.replace(/\.md$/, '');
-  
+
   return {
     title: data.title || slug,
     slug,
@@ -111,12 +111,8 @@ export function getArticle(lang: Locale, category: string, slug: string): Articl
 export function getCategories(lang: Locale): string[] {
   return fs
     .readdirSync(CONTENT_ROOT[lang])
-    .filter((f: string) => 
-      fs.statSync(path.join(CONTENT_ROOT[lang], f)).isDirectory() && 
-      !f.startsWith('.')
+    .filter(
+      (f: string) =>
+        fs.statSync(path.join(CONTENT_ROOT[lang], f)).isDirectory() && !f.startsWith('.')
     );
 }
-
-export const getArticles = cache(async (lang: string) => {
-  // Your existing article fetching logic
-}); 
