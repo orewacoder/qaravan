@@ -1,6 +1,7 @@
 import { getArticle, getAllArticles } from '@/lib/content';
 import { Locale } from '@/types';
 import { isLocale } from '@/lib/i18n';
+import { getCategoryName } from '@/lib/translations';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import ReactMarkdown from 'react-markdown';
@@ -8,45 +9,30 @@ import remarkGfm from 'remark-gfm';
 import rehypeHighlight from 'rehype-highlight';
 import 'highlight.js/styles/github-dark.css';
 
-// Category names mapping
-const categoryNames: Record<string, { uz: string; ru: string }> = {
-  'avtomatizaciya-beta': { uz: 'Avtomatlashtirish', ru: 'Автоматизация' },
-  'faq-dlya-novichkov': { uz: 'Yangilar uchun FAQ', ru: 'FAQ для новичков' },
-  'mobilnoe-testirovanie': { uz: 'Mobil test', ru: 'Мобильное тестирование' },
-  'obshee': { uz: 'Umumiy', ru: 'Общее' },
-  'poleznye-ssylki': { uz: 'Foydali havolalar', ru: 'Полезные ссылки' },
-  'prakticheskaya-chast': { uz: 'Amaliy qism', ru: 'Практическая часть' },
-  'sdlc-i-stlc': { uz: 'SDLC va STLC', ru: 'SDLC и STLC' },
-  'seti-i-okolo-nikh': { uz: 'Tarmoqlar', ru: 'Сети и около них' },
-  'test-dizain': { uz: 'Test dizayni', ru: 'Тест-дизайн' },
-  'testirovanie-v-raznykh-sferakh-oblastyakh-testing-different-domains': { uz: 'Turli sohalarda test', ru: 'Тестирование в разных сферах' },
-  'testovaya-dokumentaciya-i-artefakty-test-deliverablestest-artifacts': { uz: 'Test hujjatlari', ru: 'Тестовая документация' },
-  'vidy-metody-urovni-testirovaniya': { uz: 'Test turlari va usullari', ru: 'Виды, методы, уровни тестирования' }
-};
-
 export default async function ArticlePage({
   params
 }: {
-  params: Promise<{ lang: string; category: string; slug: string }>
+  params: Promise<{ lang: string; category: string; slug: string }>;
 }) {
   const { lang, category, slug } = await params;
-  
+
   if (!isLocale(lang)) {
     notFound();
   }
 
   const article = getArticle(lang, category, slug);
-  
+
   if (!article) {
     notFound();
   }
 
-  const categoryName = categoryNames[category]?.[lang] || category;
+  const categoryName = getCategoryName(category, lang);
   const allArticles = await getAllArticles(lang);
-  const categoryArticles = allArticles.filter(a => a.category === category);
-  const currentIndex = categoryArticles.findIndex(a => a.slug === slug);
+  const categoryArticles = allArticles.filter((a) => a.category === category);
+  const currentIndex = categoryArticles.findIndex((a) => a.slug === slug);
   const prevArticle = currentIndex > 0 ? categoryArticles[currentIndex - 1] : null;
-  const nextArticle = currentIndex < categoryArticles.length - 1 ? categoryArticles[currentIndex + 1] : null;
+  const nextArticle =
+    currentIndex < categoryArticles.length - 1 ? categoryArticles[currentIndex + 1] : null;
 
   return (
     <div className="max-w-4xl mx-auto">
@@ -54,7 +40,7 @@ export default async function ArticlePage({
       <nav className="mb-8">
         <ol className="flex items-center space-x-2 text-sm text-gray-600 dark:text-gray-400">
           <li>
-            <Link 
+            <Link
               href={`/${lang}`}
               className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
             >
@@ -65,7 +51,7 @@ export default async function ArticlePage({
             <svg className="w-4 h-4 mx-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
             </svg>
-            <Link 
+            <Link
               href={`/${lang}/${category}`}
               className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
             >
@@ -76,9 +62,7 @@ export default async function ArticlePage({
             <svg className="w-4 h-4 mx-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
             </svg>
-            <span className="text-gray-800 dark:text-gray-200 font-medium">
-              {article.title}
-            </span>
+            <span className="text-gray-800 dark:text-gray-200 font-medium">{article.title}</span>
           </li>
         </ol>
       </nav>
@@ -99,22 +83,22 @@ export default async function ArticlePage({
               </span>
             )}
           </div>
-          
+
           <h1 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent mb-4 sm:mb-6 leading-tight break-words">
             {article.title}
           </h1>
-          
+
           {article.description && (
             <p className="text-sm sm:text-base lg:text-xl text-gray-600 dark:text-gray-300 leading-relaxed mb-4 sm:mb-6">
               {article.description}
             </p>
           )}
-          
+
           {article.tags.length > 0 && (
             <div className="flex flex-wrap gap-2">
               {article.tags.map((tag) => (
-                <span 
-                  key={tag} 
+                <span
+                  key={tag}
                   className="text-xs sm:text-sm text-gray-600 dark:text-gray-400 bg-gray-100 dark:bg-gray-700 px-2 sm:px-3 py-1 rounded-full"
                 >
                   #{tag}
@@ -178,7 +162,7 @@ export default async function ArticlePage({
                   <ol className="list-decimal list-inside space-y-1 sm:space-y-2 mb-3 sm:mb-4 text-gray-700 dark:text-gray-300">
                     {children}
                   </ol>
-                ),
+                )
               }}
             >
               {article.content}
@@ -197,7 +181,12 @@ export default async function ArticlePage({
             >
               <div className="flex items-center text-blue-600 dark:text-blue-400 text-sm font-medium mb-2">
                 <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M15 19l-7-7 7-7"
+                  />
                 </svg>
                 {lang === 'uz' ? 'Oldingi maqola' : 'Предыдущая статья'}
               </div>
@@ -206,7 +195,7 @@ export default async function ArticlePage({
               </h3>
             </Link>
           )}
-          
+
           {nextArticle && (
             <Link
               href={`/${lang}/${category}/${nextArticle.slug}`}
@@ -215,7 +204,12 @@ export default async function ArticlePage({
               <div className="flex items-center justify-end text-blue-600 dark:text-blue-400 text-sm font-medium mb-2">
                 {lang === 'uz' ? 'Keyingi maqola' : 'Следующая статья'}
                 <svg className="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M9 5l7 7-7 7"
+                  />
                 </svg>
               </div>
               <h3 className="font-semibold text-gray-800 dark:text-gray-200 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors line-clamp-2">
@@ -227,4 +221,4 @@ export default async function ArticlePage({
       </nav>
     </div>
   );
-} 
+}

@@ -4,4 +4,4 @@ module.exports = {
   experimental: {
     mdxRs: true
   }
-}; 
+};
