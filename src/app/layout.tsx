@@ -21,6 +21,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="ru" suppressHydrationWarning>
       <head>
+        <meta name="algolia-site-verification" content="7DE5D7A4F9254997" />
         <script src="https://telegram.org/js/telegram-web-app.js" async></script>
       </head>
       <body className={inter.className}>
@@ -34,4 +35,4 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       </body>
     </html>
   );
-} 
+}
